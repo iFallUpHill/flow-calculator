@@ -2,10 +2,9 @@ import React from 'react';
 
 const Input = (({ value, label, type, register, ...rest }) => (
   <>
-    <label htmlFor={value} className="text-gray-700 block">{label}</label>
+    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <input type={type} className="
       mt-2
-      mb-4
       block
       w-full
       rounded-md
@@ -19,10 +18,9 @@ const Input = (({ value, label, type, register, ...rest }) => (
 
 const Select = React.forwardRef(({ value, label, options, register, ...rest }, ref) => (
   <>
-    <label htmlFor={value} className="text-gray-700 block">{label}</label>
+    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <select className="
       mt-2
-      mb-4
       block
       w-full
       rounded-md
@@ -38,8 +36,31 @@ const Select = React.forwardRef(({ value, label, options, register, ...rest }, r
     </>
 ));
 
+const Error = ({ msg }) => (
+  <span className="text-xs text-red-700">{msg}</span>
+);
+
+const TextArea = (({ value, label, rows=4, register, ...rest }) => (
+  <>
+    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+    <textarea rows={rows} className="
+      mt-2
+      block
+      w-full
+      rounded-md
+      border-gray-300
+      shadow-sm
+      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+      "
+      {...register} />
+    </>
+));
+
+
 export {
   Input,
   Select,
+  TextArea,
+  Error,
 }
 
