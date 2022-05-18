@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Input, Select } from './Inputs'
+import { Input, Select, TextArea, Error } from './Inputs';
 
 const prusaDefaults = {
   bedWidth: 250, // mm
@@ -32,7 +32,7 @@ const prusaDefaults = {
   tempEnd: 200, // °C
   customStartGCode: '', 
   customEndGCode: '', 
-  comment: '',
+  fileName: '',
 }
 
 function InputForm() {
@@ -49,11 +49,15 @@ function InputForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Input type="number" value="bedWidth" label="Bed Width (mm)" 
       register={register("bedWidth", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
-      {errors.bedWidth && <p>Enter a valid bed width</p>}
+      {errors.bedWidth && <Error msg="Enter a valid bed width"/>}
 
       <Input type="number" value="bedLength" label="Bed Length (mm)" 
       register={register("bedLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
-      {errors.bedLength && <p>Enter a valid bed length</p>}
+      {errors.bedLength && <Error msg="Enter a valid bed length"/>}
+
+      <Input type="number" value="bedLength" label="Bed Margin (mm)" 
+      register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 25)})}/>
+      {errors.bedMargin && <Error msg="Enter a valid bed margin"/>}
 
       <Select value="filamentDiameter" label="Filament Diameter" register={register("filamentDiameter", { required: true, valueAsNumber: true })}
         options={[
@@ -62,6 +66,10 @@ function InputForm() {
         ]}
       />
 
+      <Input type="number" value="travelSpeed" label="Travel Speed (mm/s)" 
+      register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 500)})}/>
+      {errors.travelSpeed && <Error msg="Enter a valid travel speed"/>}
+
       <Select value="direction" label="Direction" register={register("direction", { required: true, valueAsNumber: true })}
         options={[
           {value: 1, label: "Front to Back"},
@@ -69,8 +77,28 @@ function InputForm() {
         ]}
       />
 
+      <Input type="number" value="stabilizationTime" label="Stabilization Time (s)" 
+      register={register("stabilizationTime", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 30)})}/>
+      {errors.stabilizationTime && <Error msg="Enter a valid stabilization time"/>}
 
-      <input type="submit" />
+      <Input type="number" value="bedTemp" label="Bed Temperature (°C)" 
+      register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 110)})}/>
+      {errors.bedTemp && <Error msg="Enter a valid bed temperature"/>}
+
+      <Input type="number" value="fanSpeed" label="Fan Speed (%)" 
+      register={register("fanSpeed", { required: true, setValueAs: (v) => parseInt(Math.round(v*255/100)), validate: (value) => (value >= 0 && value <= 100)})}/>
+      {errors.fanSpeed && <Error msg="Enter a valid fan speed"/>}
+
+      <TextArea value="customStartGCode" label="Custom Start G-Code" 
+      register={register("customStartGCode")}/>
+
+      <TextArea value="customEndGCode" label="Custom End G-Code" 
+      register={register("customEndGCode")}/>
+
+      <Input type="text" value="fileName" label="File Name" 
+      register={register("fileName")}/>
+
+      <input className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" type="submit" value="Submit" />
     </form>
   );
 }
