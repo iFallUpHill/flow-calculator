@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Select, TextArea, Error } from './Inputs';
+import generateGcode from '../utils/generateGcode';
 
 const prusaDefaults = {
   bedWidth: 250, // mm
@@ -20,8 +21,8 @@ const prusaDefaults = {
   blobHeight: 10, // mm 
   extrusionAmount: 200, //mm
   direction: 1, // 1 = front to back, -1 = back to front
-  tempSpacing: 40, // mm
   flowSpacing: 50, // mm
+  tempSpacing: 40, // mm
   flowStart: 2, // mm^3/s
   flowOffset: 2, // mm^3/s
   flowSteps: 8, // unitless, (end-start)/offset
@@ -30,8 +31,8 @@ const prusaDefaults = {
   tempOffset: 20, // °C
   tempSteps: 3, // unitless, (end-start)/offset
   tempEnd: 200, // °C
-  customStartGCode: '', 
-  customEndGCode: '', 
+  customStartGCode: [], 
+  customEndGCode: [], 
   fileName: '',
 }
 
@@ -43,7 +44,7 @@ function InputForm() {
   } = useForm({
     defaultValues: prusaDefaults,
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => generateGcode(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,13 +90,91 @@ function InputForm() {
       register={register("fanSpeed", { required: true, setValueAs: (v) => parseInt(Math.round(v*255/100)), validate: (value) => (value >= 0 && value <= 100)})}/>
       {errors.fanSpeed && <Error msg="Enter a valid fan speed"/>}
 
-      <TextArea value="customStartGCode" label="Custom Start G-Code" 
-      register={register("customStartGCode")}/>
 
-      <TextArea value="customEndGCode" label="Custom End G-Code" 
-      register={register("customEndGCode")}/>
+      <Input type="number" value="primeLength" label="Prime Length (mm)" 
+      register={register("primeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+      {errors.primeLength && <Error msg="Enter a valid prime length"/>}
 
-      <Input type="text" value="fileName" label="File Name" 
+      <Input type="number" value="primeAmount" label="Prime Amount (mm)" 
+      register={register("primeAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+      {errors.primeAmount && <Error msg="Enter a valid prime amount"/>}
+
+      <Input type="number" value="primeSpeed" label="Prime Speed (mm/s)" 
+      register={register("primeSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+      {errors.primeSpeed && <Error msg="Enter a valid prime speed"/>}
+
+      <Input type="number" value="wipeLength" label="Wipe Length (mm)" 
+      register={register("wipeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+      {errors.wipeLength && <Error msg="Enter a valid wipe length"/>}
+
+      <Input type="number" step={0.01} value="retractionDistance" label="Retraction Distance (mm)" 
+      register={register("retractionDistance", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
+      {errors.retractionDistance && <Error msg="Enter a valid retraction distance"/>}
+
+      <Input type="number" value="retractionSpeed" label="Retraction Speed (mm/s)" 
+      register={register("retractionSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+      {errors.retractionSpeed && <Error msg="Enter a valid retraction speed"/>}
+
+      <Input type="number" value="blobHeight" label="Blob Height (mm)" 
+      register={register("blobHeight", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+      {errors.blobHeight && <Error msg="Enter a valid blob height"/>}
+
+      <Input type="number" value="extrusionAmount" label="Extrusion Amount (mm)" 
+      register={register("extrusionAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
+      {errors.extrusionAmount && <Error msg="Enter a valid extrusion amount"/>}
+
+
+
+      <Input type="number" value="flowSpacing" label="Flow Spacing (mm) - Rows" 
+      register={register("flowSpacing", { required: true, valueAsNumber: true, validate: (value) => (value >= 25 && value <= 500)})}/>
+      {errors.flowSpacing && <Error msg="Enter a valid flow spacing"/>}
+
+      <Input type="number" value="tempSpacing" label="Temperature Spacing (mm) - Columns" 
+      register={register("tempSpacing", { required: true, valueAsNumber: true, validate: (value) => (value >= 25 && value <= 500)})}/>
+      {errors.tempSpacing && <Error msg="Enter a valid temperature spacing"/>}
+
+
+      <Input type="number" value="flowStart" label="Start Flow (mm³/s)" 
+      register={register("flowStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 2 && value <= 100)})}/>
+      {errors.flowStart && <Error msg="Enter a valid start flow"/>}
+
+      <Input type="number" value="flowOffset" label="Offset Flow (mm³/s)" 
+      register={register("flowOffset", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 30)})}/>
+      {errors.flowOffset && <Error msg="Enter a valid offset flow"/>}
+
+      <Input type="number" value="flowSteps" label="Flow Steps" 
+      register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
+      {errors.flowSteps && <Error msg="Enter a valid number of flow steps"/>}
+
+      <Input type="number" value="flowEnd" label="End Flow (mm³/s)" 
+      register={register("flowEnd", { required: true, valueAsNumber: true, validate: (value) => (value >= 2 && value <= 100)})}/>
+      {errors.flowEnd && <Error msg="Enter a valid end flow"/>}
+
+
+      <Input type="number" value="tempStart" label="Start Temperature (°C)" 
+      register={register("tempStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 350)})}/>
+      {errors.tempStart && <Error msg="Enter a valid start temperature"/>}
+
+      <Input type="number" value="tempOffset" label="Offset Temperature (°C)" 
+      register={register("tempOffset", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 115)})}/>
+      {errors.tempOffset && <Error msg="Enter a valid offset temperature"/>}
+
+      <Input type="number" value="tempSteps" label="Temperature Steps" 
+      register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
+      {errors.tempSteps && <Error msg="Enter a valid number of temperature steps"/>}
+
+      <Input type="number" value="tempEnd" label="End Temperature (°C)" 
+      register={register("tempEnd", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 350)})}/>
+      {errors.tempEnd && <Error msg="Enter a valid end temperature"/>}
+
+
+      <TextArea value="customStartGCode" label="Custom Start G-Code (Optional)" 
+      register={register("customStartGCode", { setValueAs: (v) => v.split('\n') })}/>
+
+      <TextArea value="customEndGCode" label="Custom End G-Code (Optional)" 
+      register={register("customEndGCode", { setValueAs: (v) => v.split('\n') })}/>
+
+      <Input type="text" value="fileName" label="File Name (Optional)" 
       register={register("fileName")}/>
 
       <input className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" type="submit" value="Submit" />

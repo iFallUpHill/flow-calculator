@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Input = (({ value, label, type, register, ...rest }) => (
+const Input = (({ value, label, type, step=1, register, ...rest }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
-    <input type={type} className="
+    <input type={type} step={step} className="
       mt-2
       block
       w-full
