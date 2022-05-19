@@ -27,12 +27,12 @@ const prusaDefaults = {
   flowOffset: 2, // mm^3/s
   flowSteps: 8, // unitless, (end-start)/offset
   flowEnd: 16, // mm^3/s
-  tempStart: 240, // °C
+  tempStart: 200, // °C
   tempOffset: 20, // °C
   tempSteps: 3, // unitless, (end-start)/offset
-  tempEnd: 200, // °C
-  customStartGCode: [], 
-  customEndGCode: [], 
+  tempEnd: 240, // °C
+  customStartGCode: '', 
+  customEndGCode: '', 
   fileName: '',
 }
 
@@ -87,7 +87,7 @@ function InputForm() {
       {errors.bedTemp && <Error msg="Enter a valid bed temperature"/>}
 
       <Input type="number" value="fanSpeed" label="Fan Speed (%)" 
-      register={register("fanSpeed", { required: true, setValueAs: (v) => parseInt(Math.round(v*255/100)), validate: (value) => (value >= 0 && value <= 100)})}/>
+      register={register("fanSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 100)})}/>
       {errors.fanSpeed && <Error msg="Enter a valid fan speed"/>}
 
 
@@ -159,7 +159,7 @@ function InputForm() {
       register={register("tempOffset", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 115)})}/>
       {errors.tempOffset && <Error msg="Enter a valid offset temperature"/>}
 
-      <Input type="number" value="tempSteps" label="Temperature Steps" 
+      <Input type="number" value="tempSteps" label="Temperature Steps (Set to 1 for Fill Flow Mode)" 
       register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
       {errors.tempSteps && <Error msg="Enter a valid number of temperature steps"/>}
 
