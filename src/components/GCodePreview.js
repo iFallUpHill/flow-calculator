@@ -1,4 +1,6 @@
 import { GCodeViewer } from "react-gcode-viewer";
+import generateGcode from '../utils/generateGcode';
+import { useStore } from "../stores/store";
 
 const style = {
     top: 0,
@@ -8,21 +10,21 @@ const style = {
     background: '#eeeeee'
 }
 
-export default function GCodePreview({bedWidth=300, bedLength=300, gcode="", ...props}) {
+export default function GCodePreview({...props}) {
+    const options = useStore((state) => state.options);
+    const gcode = generateGcode(options);
     const url = URL.createObjectURL(new Blob([gcode]));
-    console.log(gcode)
 
     return (
         <GCodeViewer
         orbitControls
         showAxes
         style={style}
-        layerColor="#e53935"
-        topLayerColor="#e53935"
+        layerColor="#ff0000"
+        topLayerColor="#ff0000"
         url={url}
-        visible={.6}
-        floorProps={{gridWidth: bedWidth,
-            gridLength: bedLength,
+        floorProps={{gridWidth: options.bedWidth,
+            gridLength: options.bedWidth,
         }}/>
     )
 }

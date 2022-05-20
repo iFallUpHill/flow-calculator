@@ -1,4 +1,5 @@
 import InputForm from './components/InputForm';
+import GCodePreview from './components/GCodePreview';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
         ExtrusionSystemBenchmark.js
       </h1>
       <InputForm />
+      <GCodePreview />
     </div>
   );
 }
