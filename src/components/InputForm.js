@@ -1,59 +1,22 @@
 import Reac, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Select, TextArea, Error } from './Inputs';
-import generateGcode from '../utils/generateGcode';
-import GCodePreview from './GCodePreview';
-
-const prusaDefaults = {
-  bedWidth: 250, // mm
-  bedLength: 210, // mm
-  bedMargin: 5, // mm 
-  filamentDiameter: 1.75, // mm
-  travelSpeed: 100, // mm/s
-  stabilizationTime: 20, // s
-  bedTemp: 60, // °C
-  fanSpeed: 0, // % * 100
-  primeLength: 25, // mm
-  primeAmount: 20, // mm
-  primeSpeed: 5, // mm/s
-  wipeLength: 15, // mm
-  retractionDistance: 0.8, // mm
-  retractionSpeed: 35, //mm/s
-  blobHeight: 10, // mm 
-  extrusionAmount: 200, //mm
-  direction: 1, // 1 = front to back, -1 = back to front
-  flowSpacing: 50, // mm
-  tempSpacing: 38, // mm
-  flowStart: 8, // mm^3/s
-  flowOffset: 2, // mm^3/s
-  flowSteps: 4, // unitless, (end-start)/offset
-  flowEnd: 16, // mm^3/s
-  tempStart: 200, // °C
-  tempOffset: 20, // °C
-  tempSteps: 3, // unitless, (end-start)/offset
-  tempEnd: 240, // °C
-  customStartGCode: '', 
-  customEndGCode: '', 
-  fileName: '',
-}
+import { useStore } from "../stores/store";
 
 function InputForm() {
+  const defaultValues = useStore((state) => state.options);
+  const setOptions = useStore((state) => state.setOptions);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: prusaDefaults,
+    defaultValues,
   });
 
-  const [gcode, setGcode] = useState('');
-  const [bedWidth, setbedWidth] = useState(250);
-  const [bedLength, setbedLength] = useState(210);
   const onSubmit = (data) => {
-    const gcode = generateGcode(data);
-    setbedWidth(data.bedWidth);
-    setbedWidth(data.bedLength);
-    setGcode(gcode);
+    setOptions(data);
   };
 
   return (
@@ -188,7 +151,6 @@ function InputForm() {
       register={register("fileName")}/>
 
       <input className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" type="submit" value="Submit" />
-      <GCodePreview bedWidth={bedWidth} bedLength={bedLength} gcode={gcode} />
     </form>
   );
 }

@@ -11,7 +11,8 @@
     "react-gcode-viewer": "^2.0.1",
     "react-hook-form": "^7.31.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.0.0-rc.1"
   },
   "scripts": {
     "start": "react-scripts start",
