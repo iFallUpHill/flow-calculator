@@ -1,4 +1,4 @@
-import Reac, { useState } from 'react';
+import Reac, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Select, TextArea, Error } from './Inputs';
 import { useStore } from "../stores/store";
@@ -10,6 +10,7 @@ function InputForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues,
@@ -18,6 +19,16 @@ function InputForm() {
   const onSubmit = (data) => {
     setOptions(data);
   };
+
+  useEffect(() => {
+    const subscription = watch((data) => {
+      setOptions(data);
+    })
+
+    return () => {
+      subscription.unsubscribe();
+    }
+  })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -149,8 +160,6 @@ function InputForm() {
 
       <Input type="text" value="fileName" label="File Name (Optional)" 
       register={register("fileName")}/>
-
-      <input className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" type="submit" value="Submit" />
     </form>
   );
 }
