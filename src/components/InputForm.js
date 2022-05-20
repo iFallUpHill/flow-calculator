@@ -1,7 +1,8 @@
-import React from 'react';
+import Reac, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Select, TextArea, Error } from './Inputs';
 import generateGcode from '../utils/generateGcode';
+import GCodePreview from './GCodePreview';
 
 const prusaDefaults = {
   bedWidth: 250, // mm
@@ -22,10 +23,10 @@ const prusaDefaults = {
   extrusionAmount: 200, //mm
   direction: 1, // 1 = front to back, -1 = back to front
   flowSpacing: 50, // mm
-  tempSpacing: 40, // mm
-  flowStart: 2, // mm^3/s
+  tempSpacing: 38, // mm
+  flowStart: 8, // mm^3/s
   flowOffset: 2, // mm^3/s
-  flowSteps: 8, // unitless, (end-start)/offset
+  flowSteps: 4, // unitless, (end-start)/offset
   flowEnd: 16, // mm^3/s
   tempStart: 200, // °C
   tempOffset: 20, // °C
@@ -44,7 +45,16 @@ function InputForm() {
   } = useForm({
     defaultValues: prusaDefaults,
   });
-  const onSubmit = (data) => generateGcode(data);
+
+  const [gcode, setGcode] = useState('');
+  const [bedWidth, setbedWidth] = useState(250);
+  const [bedLength, setbedLength] = useState(210);
+  const onSubmit = (data) => {
+    const gcode = generateGcode(data);
+    setbedWidth(data.bedWidth);
+    setbedWidth(data.bedLength);
+    setGcode(gcode);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -178,6 +188,7 @@ function InputForm() {
       register={register("fileName")}/>
 
       <input className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" type="submit" value="Submit" />
+      <GCodePreview bedWidth={bedWidth} bedLength={bedLength} gcode={gcode} />
     </form>
   );
 }

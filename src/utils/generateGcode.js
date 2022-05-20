@@ -1,5 +1,4 @@
 export default function generateGcode(data) {
-    console.log(data);
     const {
         bedWidth,
         filamentDiameter,
@@ -39,7 +38,7 @@ export default function generateGcode(data) {
     let output = [];
 
     // Fill Flow Mode
-    if (tempSteps == 1) {
+    if (tempSteps === 1) {
         tempSteps = Math.ceil(flowSteps / Math.floor((bedLength - 2 * bedMargin) / flowSpacing));
         flowSteps = Math.floor((bedLength - 2 * bedMargin) / flowSpacing);
         tempOffset = 0;
@@ -68,10 +67,10 @@ export default function generateGcode(data) {
     output.push("G90");
     output.push("G28 ; Move to home position");
     output.push("G0 Z10 ; Lift nozzle");
-    output.push("G21; unit in mm");
-    output.push("G92 E0; reset extruder");
-    output.push("M83; set extruder to relative mode");
-    if (customStartGCode != '' && customStartGCode.length > 0) {
+    output.push("G21 ; unit in mm");
+    output.push("G92 E0 ; reset extruder");
+    output.push("M83 ; set extruder to relative mode");
+    if (customStartGCode !== '' && customStartGCode.length > 0) {
         output.push(";####### Custom Start G-Code Start");
         output = output.concat(customStartGCode)
         output.push(";####### Custom Start G-Code End");
@@ -81,7 +80,7 @@ export default function generateGcode(data) {
     output.push("");
 
     for (let i = 1; i <= tempSteps; i++) {
-        if (tempOffset == 0 && i > 1) {
+        if (tempOffset === 0 && i > 1) {
             flowStart = flowStart + flowSteps * flowOffset;
         }
 
@@ -92,7 +91,7 @@ export default function generateGcode(data) {
 
 
         for (let j = 1; j <= flowSteps; j++) {
-            if (tempOffset == 0 && i == tempSteps && flowStart + (j - 2) * flowOffset == flowEnd) break;
+            if (tempOffset === 0 && i === tempSteps && flowStart + (j - 2) * flowOffset === flowEnd) break;
 
             let extrusionSpeed = Math.round((blobHeight / (extrusionAmount / ((flowStart + (j - 1) * flowOffset) / (Math.atan(1) * filamentDiameter * filamentDiameter) * 60)) + Number.EPSILON) * 100) / 100;
 
@@ -103,22 +102,22 @@ export default function generateGcode(data) {
             output.push(`G4 S${stabilizationTime} ; Stabilize`);
             output.push("G0 Z0.3 ; Drop down");
             output.push(`G1 X${Math.abs(bedMargin) + primeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} E${primeAmount} F${(primeSpeed * 60)} ; Prime`);
-            output.push(`G1 E${-1 * retractionDistance} F${retractionSpeed * 60}; Retract`);
+            output.push(`G1 E${-1 * retractionDistance} F${retractionSpeed * 60} ; Retract`);
             output.push(`G0 X${Math.abs(bedMargin) + primeLength + wipeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} F${travelSpeed * 60} ; Wipe`);
-            output.push("G0 Z0.5; Lift");
+            output.push("G0 Z0.5 ; Lift");
             output.push(`G1 E${retractionDistance} F${retractionSpeed * 60} ; Undo Retract`);
             output.push(`G1 Z${0.5 + blobHeight} E${extrusionAmount} F${extrusionSpeed} ; Extrude`);
             output.push(`G1 E${-1 * retractionDistance} F${retractionSpeed * 60} ; Retract`);
             output.push(`G0 Z${0.5 + blobHeight + 5}; Lift`);
             output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} F${travelSpeed * 60}`);
-            output.push("G92 E0; Reset Extruder");
+            output.push("G92 E0 ; Reset Extruder");
             output.push("");
         }
     }
     
     output.push(";####### End G-Code");
     output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${bedLength - Math.abs(bedMargin)} ; Move to Corner`);
-    if (customEndGCode != '' && customEndGCode.length > 0) {
+    if (customEndGCode !== '' && customEndGCode.length > 0) {
         output.push(";####### Custom End G-Code Start");
         output = output.concat(customEndGCode)
         output.push(";####### Custom End G-Code End");
@@ -127,5 +126,5 @@ export default function generateGcode(data) {
     output.push("M140 S0 ; Turn Off Bed");
     output.push("M84");
 
-    console.log(output.join("\n"));
+    return output.join("\n");
 }

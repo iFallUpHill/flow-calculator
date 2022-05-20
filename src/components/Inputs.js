@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = (({ value, label, type, step=1, register, ...rest }) => (
+const Input = (({ value, label, type, step=1, register, ...props }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <input type={type} step={step} className="
@@ -16,7 +16,7 @@ const Input = (({ value, label, type, step=1, register, ...rest }) => (
     </>
 ));
 
-const Select = React.forwardRef(({ value, label, options, register, ...rest }, ref) => (
+const Select = React.forwardRef(({ value, label, options, register, ...props }, ref) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <select className="
@@ -40,7 +40,7 @@ const Error = ({ msg }) => (
   <span className="text-xs text-red-700">{msg}</span>
 );
 
-const TextArea = (({ value, label, rows=4, register, ...rest }) => (
+const TextArea = (({ value, label, rows=4, register, ...props }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <textarea rows={rows} className="
