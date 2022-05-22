@@ -12,9 +12,26 @@ const Input = (({ value, label, type, step=1, register, ...props }) => (
       shadow-sm
       focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
       "
-      {...register} />
+      {...register}/>
     </>
 ));
+
+const StyledInput = (({ value, label, type, step=1, disabled=false, handleChange, ...props }) => (
+  <>
+    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+    <input type={type} step={step} disabled={disabled} className="
+      mt-2
+      block
+      w-full
+      rounded-md
+      border-gray-300
+      shadow-sm
+      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+      "
+      onChange={handleChange}/>
+    </>
+));
+
 
 const Select = React.forwardRef(({ value, label, options, register, ...props }, ref) => (
   <>
@@ -60,6 +77,7 @@ const TextArea = (({ value, label, rows=4, register, ...props }) => (
 export {
   Input,
   Select,
+  StyledInput,
   TextArea,
   Error,
 }
