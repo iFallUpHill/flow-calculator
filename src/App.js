@@ -1,13 +1,10 @@
 import InputForm from './components/InputForm';
-import { StyledInput } from './components/Inputs';
 import GCodePreview from './components/GCodePreview';
 import GCodeDownload from './components/GCodeDownload';
 import Credits from './components/Credits';
-import { useStore } from './stores/store';
 
 function App() {
-  const fileName = useStore((state) => state.fileName);
-  const setFileName = useStore((state) => state.setFileName);
+
 
   return (
   <div className="flex bg-slate-50">
@@ -20,7 +17,6 @@ function App() {
         </section>
         
         <section className="mt-4">
-          <StyledInput type="text" value={fileName} label="File Name (Optional)" handleChange={(e) => setFileName(e.target.value)} />
           <GCodeDownload />
         </section>
 
