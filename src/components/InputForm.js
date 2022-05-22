@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Input, Select, TextArea, Error } from './Inputs';
+import { Input, StyledInput, Select, TextArea, Info, Error } from './Inputs';
 import { useStore } from "../stores/store";
 
 function InputForm() {
-  const defaultValues = useStore((state) => state.options);
+  const options = useStore((state) => state.options);
   const setOptions = useStore((state) => state.setOptions);
 
   const {
@@ -13,16 +13,23 @@ function InputForm() {
     watch,
     formState: { errors },
   } = useForm({
-    defaultValues,
+    defaultValues: options,
+    mode: "all"
   });
 
-  const onSubmit = (data) => {
+  const updateFormData = (data) => {
+    data.tempEnd = data.tempStart + (data.tempOffset * (data.tempSteps-1));
+    data.flowEnd = data.flowStart + (data.flowOffset * (data.flowSteps-1));
     setOptions(data);
+  }
+
+  const onSubmit = (data) => {
+    updateFormData(data);
   };
 
   useEffect(() => {
     const subscription = watch((data) => {
-      setOptions(data);
+      updateFormData(data);
     })
 
     return () => {
@@ -138,9 +145,8 @@ function InputForm() {
         register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
         {errors.flowSteps && <Error msg="Enter a valid number of flow steps"/>}
 
-        <Input type="number" value="flowEnd" label="End Flow (mm³/s)" 
-        register={register("flowEnd", { required: true, valueAsNumber: true, validate: (value) => (value >= 2 && value <= 100)})}/>
-        {errors.flowEnd && <Error msg="Enter a valid end flow"/>}
+        <StyledInput type="number" defaultValue={options.flowEnd} label="End Flow (mm³/s)" disabled={true} />
+        <Info msg="End flow is a calculated value." />
       </div>
 
       <h2 className="text-lg mt-4 font-bold">Temperature Test (Columns)</h2>
@@ -157,9 +163,8 @@ function InputForm() {
         register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
         {errors.tempSteps && <Error msg="Enter a valid number of temperature steps"/>}
 
-        <Input type="number" value="tempEnd" label="End Temperature (°C)" 
-        register={register("tempEnd", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 350)})}/>
-        {errors.tempEnd && <Error msg="Enter a valid end temperature"/>}
+        <StyledInput type="number" defaultValue={options.tempEnd} label="End Temperature (°C)" disabled={true} />
+        <Info msg="End temperature is a calculated value." />
       </div>
 
       <h2 className="text-lg mt-4 font-bold">Custom Start / End GCode (Optional)</h2>
@@ -170,8 +175,6 @@ function InputForm() {
         <TextArea value="customEndGCode" label="Custom End GCode" 
         register={register("customEndGCode", { setValueAs: (v) => v.split('\n') })}/>
       </div>
-
-      
     </form>
   );
 }
