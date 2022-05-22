@@ -142,7 +142,7 @@ function InputForm() {
         {errors.flowOffset && <Error msg="Enter a valid offset flow"/>}
 
         <Input type="number" value="flowSteps" label="Flow Steps" 
-        register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
+        register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 30)})}/>
         {errors.flowSteps && <Error msg="Enter a valid number of flow steps"/>}
 
         <StyledInput type="number" defaultValue={options.flowEnd} label="End Flow (mm³/s)" disabled={true} />
@@ -160,7 +160,7 @@ function InputForm() {
         {errors.tempOffset && <Error msg="Enter a valid offset temperature"/>}
 
         <Input type="number" value="tempSteps" label="Temperature Steps (Set to 1 for Fill Flow Mode)" 
-        register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
+        register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 10)})}/>
         {errors.tempSteps && <Error msg="Enter a valid number of temperature steps"/>}
 
         <StyledInput type="number" defaultValue={options.tempEnd} label="End Temperature (°C)" disabled={true} />
