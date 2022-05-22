@@ -10,7 +10,7 @@ const style = {
     background: '#eeeeee'
 }
 
-export default function GCodePreview({...props}) {
+export default function GCodePreview() {
     const options = useStore((state) => state.options);
     const gcode = generateGcode(options);
     const url = URL.createObjectURL(new Blob([gcode]));

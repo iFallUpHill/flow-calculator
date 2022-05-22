@@ -19,6 +19,7 @@ export default function generateGcode(data) {
         flowOffset,
         flowEnd,
         tempStart,
+        /* eslint-disable */ 
         tempEnd,
         customStartGCode,
         customEndGCode,
