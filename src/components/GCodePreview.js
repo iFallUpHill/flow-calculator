@@ -6,7 +6,7 @@ const style = {
     top: 0,
     left: 0,
     width: '100%',
-    height: '100%',
+    height: '320px',
     background: '#eeeeee'
 }
 
@@ -27,10 +27,9 @@ export default function GCodePreview({...props}) {
             floorProps={{gridWidth: options.bedWidth,
                 gridLength: options.bedWidth,
             }}/>
-            <h4 className="text-lg text-zinc-300 font-bold">Controls</h4>
-            <p className="text-zinc-300"><span className="font-bold">Left Mouse</span> - Rotate</p>
-            <p className="text-zinc-300"><span className="font-bold">Middle Mouse</span> - Zoom</p>
-            <p className="text-zinc-300"><span className="font-bold">Right Mouse</span> - Pan</p>
+            <p className="text-sm text-neutral-300"><span className="font-bold">Left Mouse</span> - Rotate</p>
+            <p className="text-sm text-neutral-300"><span className="font-bold">Middle Mouse</span> - Zoom</p>
+            <p className="text-sm text-neutral-300"><span className="font-bold">Right Mouse</span> - Pan</p>
         </>
     )
 }

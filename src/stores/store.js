@@ -24,7 +24,7 @@ export const useStore = create((set) => ({
         flowStart: 8, // mm^3/s
         flowOffset: 2, // mm^3/s
         flowSteps: 4, // unitless, (end-start)/offset
-        flowEnd: 16, // mm^3/s
+        flowEnd: 14, // mm^3/s
         tempStart: 200, // °C
         tempOffset: 20, // °C
         tempSteps: 3, // unitless, (end-start)/offset
