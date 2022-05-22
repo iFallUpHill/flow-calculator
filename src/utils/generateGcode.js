@@ -25,7 +25,7 @@ export default function generateGcode(data) {
         customEndGCode,
       } = data;
 
-      let {
+    let {
         bedLength,
         bedMargin,
         flowSpacing,
@@ -35,6 +35,8 @@ export default function generateGcode(data) {
         tempOffset,
       } = data;
 
+    const maxBedLength = bedLength;
+    
     let output = [];
 
     // Fill Flow Mode
@@ -54,7 +56,7 @@ export default function generateGcode(data) {
     }
 
     // Credits
-    output.push("; *** FlowTestGenerator.js (v0.2) - Based on CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
+    output.push("; *** FlowTestGenerator.js (v0.2.1) - Based on CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
     output.push("")
 
     //Generation Settings
@@ -119,7 +121,7 @@ export default function generateGcode(data) {
     }
     
     output.push(";####### End G-Code");
-    output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${bedLength - Math.abs(bedMargin)} ; Move to Corner`);
+    output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${maxBedLength - Math.abs(bedMargin)} ; Move to Corner`);
     if (customEndGCode !== '' && customEndGCode.length > 0) {
         output.push(";####### Custom End G-Code Start");
         output = output.concat(customEndGCode)
