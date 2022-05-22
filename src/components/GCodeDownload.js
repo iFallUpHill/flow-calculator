@@ -2,7 +2,7 @@ import generateGcode from '../utils/generateGcode';
 import { useStore } from "../stores/store";
 
 
-export default function GCodeDownload({...props}) {
+export default function GCodeDownload() {
     const options = useStore((state) => state.options);
     const fileName = useStore((state) => state.fileName).replace(/[/\\?%*:|"<> ]/g, '_');
     const gcode = generateGcode(options);

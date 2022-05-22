@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = (({ value, label, type, step=1, register, ...props }) => (
+const Input = (({ value, label, type, step=1, register }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <input type={type} step={step} className="
@@ -16,7 +16,7 @@ const Input = (({ value, label, type, step=1, register, ...props }) => (
     </>
 ));
 
-const StyledInput = (({ value='', label, type, step=1, defaultValue='', disabled=false, handleChange=null, ...props }) => (
+const StyledInput = (({ value='', label, type, step=1, defaultValue='', disabled=false, handleChange=null }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <input type={type} step={step} disabled={disabled} className={`
@@ -35,7 +35,7 @@ const StyledInput = (({ value='', label, type, step=1, defaultValue='', disabled
 ));
 
 
-const Select = React.forwardRef(({ value, label, options, register, ...props }, ref) => (
+const Select = (({ value, label, options, register }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <select className="
@@ -63,7 +63,7 @@ const Error = ({ msg }) => (
   <span className="text-xs text-red-700 col-start-2">{msg}</span>
 );
 
-const TextArea = (({ value, label, rows=4, register, ...props }) => (
+const TextArea = (({ value, label, rows=4, register }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <textarea rows={rows} className="

@@ -11,7 +11,7 @@ const links = [
     }
 ]
 
-export default function Credits({...props}) {
+export default function Credits() {
     return (
         <>
             <h2 className="text-xl mt-4 mb-2 font-bold">Credits</h2>
