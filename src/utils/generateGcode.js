@@ -39,8 +39,11 @@ export default function generateGcode(data) {
 
     // Fill Flow Mode
     if (tempSteps === 1) {
-        tempSteps = Math.ceil(flowSteps / Math.floor((bedLength - 2 * bedMargin) / flowSpacing));
-        flowSteps = Math.floor((bedLength - 2 * bedMargin) / flowSpacing);
+        const maxFlowStepsPerColumn = Math.floor(((bedWidth - 2 * bedMargin) + flowSpacing)/ flowSpacing);
+        if (flowSteps > maxFlowStepsPerColumn) {
+            tempSteps = Math.ceil(flowSteps / maxFlowStepsPerColumn);
+            flowSteps =  maxFlowStepsPerColumn;
+        }
         tempOffset = 0;
     }
 
@@ -51,7 +54,7 @@ export default function generateGcode(data) {
     }
 
     // Credits
-    output.push("; *** FlowTestGenerator.js (v0.1) - Reimplemented from CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
+    output.push("; *** FlowTestGenerator.js (v0.2) - Based on CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
     output.push("")
 
     //Generation Settings

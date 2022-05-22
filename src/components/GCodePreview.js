@@ -7,7 +7,8 @@ const style = {
     left: 0,
     width: '100%',
     height: '320px',
-    background: '#eeeeee'
+    background: '#eeeeee',
+    borderRadius: '0.375rem'
 }
 
 export default function GCodePreview() {

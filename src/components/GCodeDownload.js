@@ -21,7 +21,7 @@ export default function GCodeDownload() {
 
     return (
         <> 
-            <button className="w-full mt-4 h-12 px-6 text-white font-bold transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" onClick={downloadGcode}>Download GCode</button>
+            <button className="w-full mt-4 h-12 px-6 text-white font-bold transition-colors duration-150 bg-indigo-700 rounded-md focus:shadow-outline hover:bg-indigo-800" onClick={downloadGcode}>Download GCode</button>
             <p className="mb-0 text-center">
                 <a className="text-xs text-neutral-300 transition-colors duration-150 hover:text-neutral-500 text-center underline" href="https://github.com/iFallUpHill/flow-calculator" target="_blank" rel="noreferrer noopener nofollow">View Source on GitHub</a>
             </p>
