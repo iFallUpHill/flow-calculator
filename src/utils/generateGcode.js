@@ -22,7 +22,6 @@ export default function generateGcode(data) {
         tempEnd,
         customStartGCode,
         customEndGCode,
-        fileName,
       } = data;
 
       let {
@@ -51,7 +50,7 @@ export default function generateGcode(data) {
     }
 
     // Credits
-    output.push("; *** ExtrusionSystemBenchmark.js (v0.1) - Reimplemented from CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
+    output.push("; *** FlowTestGenerator.js (v0.1) - Reimplemented from CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
     output.push("")
 
     //Generation Settings

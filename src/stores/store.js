@@ -31,7 +31,8 @@ export const useStore = create((set) => ({
         tempEnd: 240, // °C
         customStartGCode: '', 
         customEndGCode: '', 
-        fileName: '',
     },
     setOptions: (options) => set(() => ({ options: options })),
+    fileName: '',
+    setFileName: (fileName) => set(() => ({ fileName: fileName })),
 }));

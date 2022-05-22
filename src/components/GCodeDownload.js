@@ -1,10 +1,10 @@
-import { GCodeViewer } from "react-gcode-viewer";
 import generateGcode from '../utils/generateGcode';
 import { useStore } from "../stores/store";
 
 
 export default function GCodeDownload({...props}) {
     const options = useStore((state) => state.options);
+    const fileName = useStore((state) => state.fileName).replace(/[/\\?%*:|"<> ]/g, '_');
     const gcode = generateGcode(options);
     const url = URL.createObjectURL(new Blob([gcode], {
         type: "text/plain"
@@ -14,7 +14,7 @@ export default function GCodeDownload({...props}) {
         const element = document.createElement("a");
         element.href = url;
         const datestamp = new Date().toISOString().replace(/T/, '_').replace(/:/g, '-').replace(/\..+/, '')
-        element.download = `${options.fileName ? options.fileName + '-' : ''}${datestamp}.gcode`;
+        element.download = `${fileName ? fileName + '-' : ''}${datestamp}.gcode`;
         document.body.appendChild(element);
         element.click();
       };

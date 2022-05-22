@@ -16,15 +16,21 @@ export default function GCodePreview({...props}) {
     const url = URL.createObjectURL(new Blob([gcode]));
 
     return (
-        <GCodeViewer
-        orbitControls
-        showAxes
-        style={style}
-        layerColor="#ff0000"
-        topLayerColor="#ff0000"
-        url={url}
-        floorProps={{gridWidth: options.bedWidth,
-            gridLength: options.bedWidth,
-        }}/>
+        <>
+            <GCodeViewer
+            orbitControls
+            showAxes
+            style={style}
+            layerColor="#ff0000"
+            topLayerColor="#ff0000"
+            url={url}
+            floorProps={{gridWidth: options.bedWidth,
+                gridLength: options.bedWidth,
+            }}/>
+            <h4 className="text-lg text-zinc-300 font-bold">Controls</h4>
+            <p className="text-zinc-300"><span className="font-bold">Left Mouse</span> - Rotate</p>
+            <p className="text-zinc-300"><span className="font-bold">Middle Mouse</span> - Zoom</p>
+            <p className="text-zinc-300"><span className="font-bold">Right Mouse</span> - Pan</p>
+        </>
     )
 }
