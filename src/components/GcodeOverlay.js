@@ -55,7 +55,7 @@ export default function GcodeOverlay({ isOpen, handleClose, contents }) {
               />
             </svg>
           </button>
-          <div className="h-full m-8 overflow-y-scroll">
+          <div className="h-full px-8 py-6 overflow-y-scroll">
             <pre>
               <code className="text-sm whitespace-pre-wrap">{contents}</code>
             </pre>
