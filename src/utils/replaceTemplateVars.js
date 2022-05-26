@@ -47,7 +47,7 @@ function evaluateTemplateExpression(expression, obj) {
   return parseTerm(expression, obj);
 }
 
-export function replaceTemplateVars(string, obj) {
+export function replaceTemplateVars(string, obj={}) {
   return string.replaceAll(templateRegex, (_, group) =>
     evaluateTemplateExpression(group, obj)
   );
