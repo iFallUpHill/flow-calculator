@@ -1,4 +1,10 @@
+// Matches "${expression}", and captures <expression> in a group
 const templateRegex = /\$\{([^}]+)\}/gi;
+
+// Matches "(expression)", with an optional prefix of Math.abs.
+// Captures two groups: one, containing Math.abs (empty if not present),
+// and two, containing <expression>
+const parenthesesRegex = /(Math\.abs)?\(([^)]+)\)/gi;
 
 const operators = {
   "+": (x, y) => x + y,
@@ -7,8 +13,10 @@ const operators = {
   "/": (x, y) => x / y,
 };
 
-const parenthesesRegex = /(Math\.abs)?\(([^)]+)\)/gi;
-
+// op is any binary operation (or multiple, i.e. "*/"). Matches
+// "t1 ^ t2", where ^ is any single character of op, t1 and t2
+// are alphanumeric. Captures three groups: one, t1, two, ^ (the operation),
+// and 3, t2.
 const binaryOpRegex = (op) => new RegExp(`(\\w+)\\s*([${op}])\\s*(\\w+)`, 'g');
 
 const parseTerm = (term, obj) => obj[term] || parseInt(term);
@@ -47,6 +55,15 @@ function evaluateTemplateExpression(expression, obj) {
   return parseTerm(expression, obj);
 }
 
+/**
+ * Accepts a string and an optional configuration object.
+ * Any template expressions in the string (delineated ${expression})
+ * will be evaluated. Basic arithmetic (addition, subtraction, multiplication
+ * and division) and absolute value (Math.abs) are supported.
+ *
+ * If a non-integer token is encountered, it must be specified as
+ * a property of obj. If so, it will be replaced with obj[token].
+ */
 export function replaceTemplateVars(string, obj={}) {
   return string.replaceAll(templateRegex, (_, group) =>
     evaluateTemplateExpression(group, obj)
