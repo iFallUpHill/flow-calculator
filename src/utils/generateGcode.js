@@ -1,3 +1,5 @@
+import { version } from '../lib/version'
+
 export default function generateGcode(data, { addHeader=false }={}) {
     const {
         bedWidth,
@@ -58,7 +60,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
 
     if (addHeader) {
         // Credits
-        output.push(`; *** FlowTestGenerator.js (v${process.env.REACT_APP_VERSION}) by iFallUpHill`)
+        output.push(`; *** FlowTestGenerator.js (v${version}) by iFallUpHill`)
         output.push(`; *** https://github.com/iFallUpHill/flow-calculator`)
         output.push(`; *** Based on CNCKitchen's ExtrusionSystemBenchmark by Stefan Hermann`)
         output.push(`; *** https://github.com/CNCKitchen/ExtrusionSystemBenchmark`)

@@ -1,4 +1,5 @@
 import React from 'react';
+import { version } from '../lib/version'
 
 export default function TitleLabels() {
     return (
@@ -9,7 +10,7 @@ export default function TitleLabels() {
           </a>
         </p>
         <p className="text-xs mb-2 font-semibold inline-block py-1 px-2 rounded-full text-lime-600 bg-lime-200">
-          v{process.env.REACT_APP_VERSION}
+          v{version}
         </p>
       </div>
     )
