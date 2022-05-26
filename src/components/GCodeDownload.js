@@ -8,7 +8,7 @@ export default function GCodeDownload() {
     const fileName = useStore((state) => state.fileName);
     const setFileName = useStore((state) => state.setFileName);
 
-    const gcode = generateGcode(options);
+    const gcode = generateGcode(options, { addHeader: true});
     const url = URL.createObjectURL(new Blob([gcode], {
         type: "text/plain"
     }));

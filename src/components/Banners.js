@@ -26,7 +26,7 @@ const SlimAlert = ({ title, msg }) => {
             <p>{msg}</p>
           </div>
           <button
-            className="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-2 mr-2"
+            className="absolute bg-transparent right-0 top-0 mt-3 mr-3"
             onClick={() => setShowAlert(false)}
           >
             <svg

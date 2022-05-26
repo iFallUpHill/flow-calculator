@@ -1,4 +1,4 @@
-export default function generateGcode(data) {
+export default function generateGcode(data, { addHeader=false }={}) {
     const {
         bedWidth,
         safeZPark,
@@ -56,17 +56,22 @@ export default function generateGcode(data) {
         flowSpacing = flowSpacing * -1
     }
 
-    // Credits
-    output.push(`; *** FlowTestGenerator.js (v${process.env.REACT_APP_VERSION}) by iFallUpHill`)
-    output.push(`; *** Based on CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann`)
-    output.push("")
+    if (addHeader) {
+        // Credits
+        output.push(`; *** FlowTestGenerator.js (v${process.env.REACT_APP_VERSION}) by iFallUpHill`)
+        output.push(`; *** https://github.com/iFallUpHill/flow-calculator`)
+        output.push(`; *** Based on CNCKitchen's ExtrusionSystemBenchmark by Stefan Hermann`)
+        output.push(`; *** https://github.com/CNCKitchen/ExtrusionSystemBenchmark`)
 
-    //Generation Settings
-    output.push(";####### Settings")
-    for (const [key, value] of Object.entries(data)) {
-        output.push(`; ${key} = ${value}`);
+        output.push("")
+
+        // Generation Settings
+        output.push(";####### Settings")
+        for (const [key, value] of Object.entries(data)) {
+            output.push(`; ${key} = ${value}`);
+        }
+        output.push("");
     }
-    output.push("");
 
     output.push(";####### Start G-Code");
     output.push(`M104 S${tempStart} ; Set Nozzle Temperature`);
@@ -102,7 +107,7 @@ export default function generateGcode(data) {
 
             let extrusionSpeed = Math.round((blobHeight / (extrusionAmount / ((flowStart + (j - 1) * flowOffset) / (Math.atan(1) * filamentDiameter * filamentDiameter) * 60)) + Number.EPSILON) * 100) / 100;
 
-            output.push(`;####### ${flowStart + (j - 1) * flowOffset}mm3/s`);
+            output.push(`;####### ${tempStart + (i - 1) * tempOffset}°C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
             output.push(`M117 ${tempStart + (i - 1) * tempOffset}°C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
 
             output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} Z${0.5 + blobHeight + 5} F${travelSpeed * 60}`);
