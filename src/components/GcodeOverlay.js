@@ -2,7 +2,7 @@
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
 
-export default function GCodeOverlay({ isOpen, handleClose, contents }) {
+export default function GcodeOverlay({ isOpen, handleClose, contents }) {
   useEffect((handleClose) => {
     function escHandler({ key }) {
       if (key === "Escape") {

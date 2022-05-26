@@ -68,7 +68,7 @@ function InputForm() {
         register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 500)})}/>
         {errors.travelSpeed && <Error msg="Enter a valid travel speed"/>}
 
-        <Select value="direction" label="Direction" register={register("direction", { required: true, valueAsNumber: true })}
+        <Select value="direction" label="Generation Direction" register={register("direction", { required: true, valueAsNumber: true })}
           options={[
             {value: 1, label: "Front to Back"},
             {value: -1, label: "Back to Front"}
@@ -174,13 +174,13 @@ function InputForm() {
         <Info msg="End temperature is a calculated value." />
       </div>
 
-      <h2 className="text-lg mt-4 font-bold">Custom Start / End GCode (Optional)</h2>
+      <h2 className="text-lg mt-4 font-bold">Custom Start / End Gcode (Optional)</h2>
       <div>
-        <TextArea value="customStartGCode" label="Custom Start GCode" 
-        register={register("customStartGCode", { setValueAs: (v) => v.split('\n') })}/>
+        <TextArea value="customStartGcode" label="Custom Start Gcode" 
+        register={register("customStartGcode", { setValueAs: (v) => v.split('\n') })}/>
 
-        <TextArea value="customEndGCode" label="Custom End GCode" 
-        register={register("customEndGCode", { setValueAs: (v) => v.split('\n') })}/>
+        <TextArea value="customEndGcode" label="Custom End Gcode" 
+        register={register("customEndGcode", { setValueAs: (v) => v.split('\n') })}/>
       </div>
     </form>
   );

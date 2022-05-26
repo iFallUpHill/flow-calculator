@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { GCodeViewer } from "react-gcode-viewer";
 import generateGcode from '../utils/generateGcode';
 import { useStore } from "../stores/store";
-import GCodeOverlay from './GCodeOverlay';
+import GcodeOverlay from './GcodeOverlay';
 
-export default function GCodePreview() {
+export default function GcodePreview() {
     const [ modelOpen, setModelOpen ] = useState(false);
 
     const showModel = () => {
@@ -36,7 +36,7 @@ export default function GCodePreview() {
                 gridLength: options.bedWidth,
             }}/>
             <button onClick={() => showModel()} className="w-full px-2 py-2 rounded-bl-md rounded-br-md mb-1 text-sky-600 font-bold transition-colors duration-150 bg-sky-200 focus:shadow-outline hover:bg-sky-300">Inspect Gcode</button>
-            <GCodeOverlay isOpen={modelOpen} handleClose={() => closeModelHandler()} contents={gcode} />
+            <GcodeOverlay isOpen={modelOpen} handleClose={() => closeModelHandler()} contents={gcode} />
             <p className="text-sm text-neutral-300"><span className="font-bold">Left Mouse</span> - Rotate</p>
             <p className="text-sm text-neutral-300"><span className="font-bold">Middle Mouse</span> - Zoom</p>
             <p className="text-sm text-neutral-300"><span className="font-bold">Right Mouse</span> - Pan</p>

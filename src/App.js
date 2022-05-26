@@ -1,6 +1,6 @@
 import InputForm from "./components/InputForm";
-import GCodePreview from "./components/GCodePreview";
-import GCodeDownload from "./components/GCodeDownload";
+import GcodePreview from "./components/GcodePreview";
+import GcodeDownload from "./components/GcodeDownload";
 import Credits from "./components/Credits";
 import TitleLabels from "./components/TitleLabels";
 import { SlimAlert } from "./components/Banners";
@@ -14,12 +14,12 @@ function App() {
             <h1 className="text-3xl mb-1 font-bold">Flow Test Generator</h1>
             <TitleLabels />
             <section>
-              <h2 className="text-xl mb-2 font-bold">GCode Preview</h2>
-              <GCodePreview />
+              <h2 className="text-xl mb-2 font-bold">Gcode Preview</h2>
+              <GcodePreview />
             </section>
 
             <section className="mt-4">
-              <GCodeDownload />
+              <GcodeDownload />
             </section>
 
             <section className="mt-4">

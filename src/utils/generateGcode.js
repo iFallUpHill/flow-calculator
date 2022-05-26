@@ -24,8 +24,8 @@ export default function generateGcode(data, { addHeader=false }={}) {
         tempStart,
         /* eslint-disable */ 
         tempEnd,
-        customStartGCode,
-        customEndGCode,
+        customStartGcode,
+        customEndGcode,
       } = data;
 
     let {
@@ -75,7 +75,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
         output.push("");
     }
 
-    output.push(";####### Start G-Code");
+    output.push(";####### Start Gcode");
     output.push(`M104 S${tempStart} ; Set Nozzle Temperature`);
     output.push(`M140 S${bedTemp} ; Set Bed Temperature`);
     output.push("G90");
@@ -84,10 +84,10 @@ export default function generateGcode(data, { addHeader=false }={}) {
     output.push("G21 ; unit in mm");
     output.push("G92 E0 ; reset extruder");
     output.push("M83 ; set extruder to relative mode");
-    if (customStartGCode !== '' && customStartGCode.length > 0) {
-        output.push(";####### Custom Start G-Code Start");
-        output = output.concat(customStartGCode)
-        output.push(";####### Custom Start G-Code End");
+    if (customStartGcode !== '' && customStartGcode.length > 0) {
+        output.push(";####### Custom Start Gcode Start");
+        output = output.concat(customStartGcode)
+        output.push(";####### Custom Start Gcode End");
     }
     output.push(`M190 S${bedTemp} ; Wait for Bed Temperature`);
     output.push(`M106 S${Math.round(fanSpeed*255/100)} ; Set Fan Speed`);
@@ -129,12 +129,12 @@ export default function generateGcode(data, { addHeader=false }={}) {
         }
     }
     
-    output.push(";####### End G-Code");
+    output.push(";####### End Gcode");
     output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${maxBedLength - Math.abs(bedMargin)} ; Move to Corner`);
-    if (customEndGCode !== '' && customEndGCode.length > 0) {
-        output.push(";####### Custom End G-Code Start");
-        output = output.concat(customEndGCode)
-        output.push(";####### Custom End G-Code End");
+    if (customEndGcode !== '' && customEndGcode.length > 0) {
+        output.push(";####### Custom End Gcode Start");
+        output = output.concat(customEndGcode)
+        output.push(";####### Custom End Gcode End");
     }
     output.push("M104 S0 T0 ; Turn Off Hotend");
     output.push("M140 S0 ; Turn Off Bed");

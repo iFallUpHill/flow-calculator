@@ -30,8 +30,8 @@ export const useStore = create((set) => ({
         tempOffset: 20, // °C
         tempSteps: 3, // unitless, (end-start)/offset
         tempEnd: 240, // °C
-        customStartGCode: '', 
-        customEndGCode: '', 
+        customStartGcode: '', 
+        customEndGcode: '', 
     },
     setOptions: (options) => set(() => ({ options: options })),
     fileName: '',

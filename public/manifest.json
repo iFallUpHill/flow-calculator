@@ -1,6 +1,6 @@
 {
   "short_name": "Flow Tester",
-  "name": "Hotend Flow G-Code Test Geenerator",
+  "name": "Hotend Flow Gcode Test Generator",
   "icons": [
   ],
   "start_url": ".",
