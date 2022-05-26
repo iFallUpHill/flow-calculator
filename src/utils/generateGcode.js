@@ -1,6 +1,7 @@
 export default function generateGcode(data) {
     const {
         bedWidth,
+        safeZPark,
         filamentDiameter,
         travelSpeed,
         stabilizationTime,
@@ -72,7 +73,7 @@ export default function generateGcode(data) {
     output.push(`M140 S${bedTemp} ; Set Bed Temperature`);
     output.push("G90");
     output.push("G28 ; Move to home position");
-    output.push("G0 Z10 ; Lift nozzle");
+    output.push(`G0 Z${safeZPark} ; Lift nozzle`);
     output.push("G21 ; unit in mm");
     output.push("G92 E0 ; reset extruder");
     output.push("M83 ; set extruder to relative mode");
