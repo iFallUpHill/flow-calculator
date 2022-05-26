@@ -4,13 +4,14 @@ import GCodeDownload from './components/GCodeDownload';
 import Credits from './components/Credits';
 
 function App() {
-
+  console.log(process.env)
 
   return (
   <div className="flex bg-slate-50">
     <aside className="h-screen sticky top-0 w-96 bg-white drop-shadow overflow-y-scroll shrink-0">
         <div className="m-8">
-          <h1 className="text-3xl mb-2 font-bold">Flow Test Generator</h1>
+          <h1 className="text-3xl font-bold">Flow Test Generator</h1>
+          <p className="mb-2">v{process.env.REACT_APP_VERSION}</p>
           <section>
             <h2 className="text-xl mb-2 font-bold">GCode Preview</h2>
             <GCodePreview />

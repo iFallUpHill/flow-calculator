@@ -56,7 +56,8 @@ export default function generateGcode(data) {
     }
 
     // Credits
-    output.push("; *** FlowTestGenerator.js (v0.2.1) - Based on CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann")
+    output.push(`; *** FlowTestGenerator.js (v${process.env.REACT_APP_VERSION}) by iFallUpHill`)
+    output.push(`; *** Based on CNC Kitchen Auto Flow Pattern Generator 0.93 by Stefan Hermann`)
     output.push("")
 
     //Generation Settings
