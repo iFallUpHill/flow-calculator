@@ -76,7 +76,7 @@ function InputForm() {
         {errors.stabilizationTime && <Error msg="Enter a valid stabilization time"/>}
 
         <Input type="number" value="bedTemp" label="Bed Temperature (°C)" 
-        register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 110)})}/>
+        register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 150)})}/>
         {errors.bedTemp && <Error msg="Enter a valid bed temperature"/>}
 
         <Input type="number" value="fanSpeed" label="Fan Speed (%)" 
@@ -152,7 +152,7 @@ function InputForm() {
       <h2 className="text-lg mt-4 font-bold">Temperature Test (Columns)</h2>
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="tempStart" label="Start Temperature (°C)" 
-        register={register("tempStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 350)})}/>
+        register={register("tempStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 450)})}/>
         {errors.tempStart && <Error msg="Enter a valid start temperature"/>}
 
         <Input type="number" value="tempOffset" label="Offset Temperature (°C)" 
