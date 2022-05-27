@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, StyledInput, Select, TextArea, Info, Error } from './Inputs';
+import { AdvancedBadge } from './Badges';
 import { useStore } from "../stores/store";
 
 function InputForm() {
@@ -100,33 +101,6 @@ function InputForm() {
         {errors.retractionSpeed && <Error msg="Enter a valid retraction speed"/>}
       </div>
 
-      <h2 className="text-lg mt-4 font-bold">Extrusion Configuration</h2>
-       <div className ="grid grid-cols-2 gap-x-8">
-        <Input type="number" value="primeLength" label="Prime Line Length (mm)" 
-        register={register("primeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.primeLength && <Error msg="Enter a valid prime line length"/>}
-
-        <Input type="number" value="primeAmount" label="Prime Extrude Amount (mm)" 
-        register={register("primeAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.primeAmount && <Error msg="Enter a valid amount to extrude for the priming"/>}
-
-        <Input type="number" value="primeSpeed" label="Prime Speed (mm/s)" 
-        register={register("primeSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.primeSpeed && <Error msg="Enter a valid prime speed"/>}
-
-        <Input type="number" value="wipeLength" label="Prime End to Blob Start Distance (mm)" 
-        register={register("wipeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.wipeLength && <Error msg="Enter a valid wipe length"/>}
-
-        <Input type="number" value="blobHeight" label="Blob Height (mm)" 
-        register={register("blobHeight", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.blobHeight && <Error msg="Enter a valid blob height"/>}
-
-        <Input type="number" value="extrusionAmount" label="Extrusion Amount (mm)" 
-        register={register("extrusionAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
-        {errors.extrusionAmount && <Error msg="Enter a valid extrusion amount"/>}
-      </div>
-
       <h2 className="text-lg mt-4 font-bold">Spacing</h2>
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="flowSpacing" label="Flow Spacing (mm) - Rows" 
@@ -174,13 +148,46 @@ function InputForm() {
         <Info msg="End temperature is a calculated value." />
       </div>
 
-      <h2 className="text-lg mt-4 font-bold">Custom Start / End Gcode (Optional)</h2>
+      <div className="flex mt-4 items-center gap-2">
+        <h2 className="text-lg font-bold">Start and End Gcode</h2>
+        <AdvancedBadge label="Advanced"/>
+      </div>
       <div>
         <TextArea value="customStartGcode" label="Custom Start Gcode" 
         register={register("customStartGcode", { setValueAs: (v) => v.split('\n') })}/>
 
         <TextArea value="customEndGcode" label="Custom End Gcode" 
         register={register("customEndGcode", { setValueAs: (v) => v.split('\n') })}/>
+      </div>
+
+      <div className="flex mt-4 items-center gap-2">
+        <h2 className="text-lg font-bold">Test Configuration</h2>
+        <AdvancedBadge label="Advanced"/>
+      </div>
+       <div className ="grid grid-cols-2 gap-x-8">
+        <Input type="number" value="primeLength" label="Prime Line Length (mm)" 
+        register={register("primeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.primeLength && <Error msg="Enter a valid prime line length"/>}
+
+        <Input type="number" value="primeAmount" label="Prime Extrude Amount (mm)" 
+        register={register("primeAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.primeAmount && <Error msg="Enter a valid amount to extrude for the priming"/>}
+
+        <Input type="number" value="primeSpeed" label="Prime Speed (mm/s)" 
+        register={register("primeSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.primeSpeed && <Error msg="Enter a valid prime speed"/>}
+
+        <Input type="number" value="wipeLength" label="Prime End to Blob Start Distance (mm)" 
+        register={register("wipeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.wipeLength && <Error msg="Enter a valid wipe length"/>}
+
+        <Input type="number" value="blobHeight" label="Blob Height (mm)" 
+        register={register("blobHeight", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.blobHeight && <Error msg="Enter a valid blob height"/>}
+
+        <Input type="number" value="extrusionAmount" label="Extrusion Amount (mm)" 
+        register={register("extrusionAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
+        {errors.extrusionAmount && <Error msg="Enter a valid extrusion amount"/>}
       </div>
     </form>
   );

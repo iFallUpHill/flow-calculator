@@ -2,7 +2,7 @@ import InputForm from "./components/InputForm";
 import GcodePreview from "./components/GcodePreview";
 import GcodeDownload from "./components/GcodeDownload";
 import Credits from "./components/Credits";
-import TitleLabels from "./components/TitleLabels";
+import { TitleBadges } from "./components/Badges";
 import { SlimAlert } from "./components/Banners";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         <aside className="h-screen sticky top-0 w-96 bg-white drop-shadow overflow-y-scroll shrink-0">
           <div className="m-8">
             <h1 className="text-3xl mb-1 font-bold">Flow Test Generator</h1>
-            <TitleLabels />
+            <TitleBadges />
             <section>
               <h2 className="text-xl mb-2 font-bold">Gcode Preview</h2>
               <GcodePreview />
