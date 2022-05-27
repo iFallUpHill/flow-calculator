@@ -29,11 +29,11 @@ function InputForm() {
     data.flowEnd = data.flowStart + (data.flowOffset * (data.flowSteps-1));
 
     try { replaceTemplateVars(data.startGcode) } 
-    catch (err) { setStartGcodeError(`Unable to parse start Gcode successfully.`) } 
+    catch (err) { setStartGcodeError(``) } 
     finally { setStartGcodeError(``) }
 
     try { replaceTemplateVars(data.endGcode) } 
-    catch (err) { console.log(err); setEndGcodeError(`Unable to parse end Gcode successfully.`) } 
+    catch (err) { setEndGcodeError(``) } 
     finally { setStartGcodeError(``) }
 
     setOptions(data);
@@ -173,7 +173,6 @@ function InputForm() {
         <TextArea value="startGcode" label="Start Gcode" 
         register={register("startGcode")}/>
         {startGcodeError && <Error msg="Unable to parse start Gcode."/>}
-
 
         <TextArea value="endGcode" label="End Gcode" 
         register={register("endGcode")}/>
