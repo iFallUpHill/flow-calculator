@@ -1,11 +1,12 @@
 {
   "name": "flow-calculator",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "genversion": "^3.1.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-gcode-viewer": "^2.0.4",
@@ -15,8 +16,8 @@
     "zustand": "^4.0.0-rc.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "genversion --es6 src/lib/version.js && react-scripts start",
+    "build": "genversion --es6 src/lib/version.js && react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"
   },

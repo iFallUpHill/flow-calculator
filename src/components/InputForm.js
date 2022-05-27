@@ -53,6 +53,10 @@ function InputForm() {
         register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 25)})}/>
         {errors.bedMargin && <Error msg="Enter a valid bed margin"/>}
 
+        <Input type="number" value="safeZPark" label="Safe Z Park Height (mm, absolute above bed)" 
+        register={register("safeZPark", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.retractionSpeed && <Error msg="Enter a safe z park height"/>}
+
         <Select value="filamentDiameter" label="Filament Diameter" register={register("filamentDiameter", { required: true, valueAsNumber: true })}
           options={[
             {value: 1.75, label: "1.75mm"},
@@ -64,7 +68,7 @@ function InputForm() {
         register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 500)})}/>
         {errors.travelSpeed && <Error msg="Enter a valid travel speed"/>}
 
-        <Select value="direction" label="Direction" register={register("direction", { required: true, valueAsNumber: true })}
+        <Select value="direction" label="Generation Direction" register={register("direction", { required: true, valueAsNumber: true })}
           options={[
             {value: 1, label: "Front to Back"},
             {value: -1, label: "Back to Front"}
@@ -76,7 +80,7 @@ function InputForm() {
         {errors.stabilizationTime && <Error msg="Enter a valid stabilization time"/>}
 
         <Input type="number" value="bedTemp" label="Bed Temperature (°C)" 
-        register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 110)})}/>
+        register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 150)})}/>
         {errors.bedTemp && <Error msg="Enter a valid bed temperature"/>}
 
         <Input type="number" value="fanSpeed" label="Fan Speed (%)" 
@@ -85,8 +89,19 @@ function InputForm() {
       </div>
       
 
-      <h2 className="text-lg mt-4 font-bold">Extrusion Configuration</h2>
+      <h2 className="text-lg mt-4 font-bold">Extruder Configuration</h2>
       <div className ="grid grid-cols-2 gap-x-8">
+        <Input type="number" step={0.01} value="retractionDistance" label="Retraction Distance (mm)" 
+        register={register("retractionDistance", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
+        {errors.retractionDistance && <Error msg="Enter a valid retraction distance"/>}
+
+        <Input type="number" value="retractionSpeed" label="Retraction Speed (mm/s)" 
+        register={register("retractionSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        {errors.retractionSpeed && <Error msg="Enter a valid retraction speed"/>}
+      </div>
+
+      <h2 className="text-lg mt-4 font-bold">Extrusion Configuration</h2>
+       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="primeLength" label="Prime Length (mm)" 
         register={register("primeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
         {errors.primeLength && <Error msg="Enter a valid prime length"/>}
@@ -102,14 +117,6 @@ function InputForm() {
         <Input type="number" value="wipeLength" label="Wipe Length (mm)" 
         register={register("wipeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
         {errors.wipeLength && <Error msg="Enter a valid wipe length"/>}
-
-        <Input type="number" step={0.01} value="retractionDistance" label="Retraction Distance (mm)" 
-        register={register("retractionDistance", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
-        {errors.retractionDistance && <Error msg="Enter a valid retraction distance"/>}
-
-        <Input type="number" value="retractionSpeed" label="Retraction Speed (mm/s)" 
-        register={register("retractionSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.retractionSpeed && <Error msg="Enter a valid retraction speed"/>}
 
         <Input type="number" value="blobHeight" label="Blob Height (mm)" 
         register={register("blobHeight", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
@@ -152,7 +159,7 @@ function InputForm() {
       <h2 className="text-lg mt-4 font-bold">Temperature Test (Columns)</h2>
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="tempStart" label="Start Temperature (°C)" 
-        register={register("tempStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 350)})}/>
+        register={register("tempStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 450)})}/>
         {errors.tempStart && <Error msg="Enter a valid start temperature"/>}
 
         <Input type="number" value="tempOffset" label="Offset Temperature (°C)" 
@@ -167,13 +174,13 @@ function InputForm() {
         <Info msg="End temperature is a calculated value." />
       </div>
 
-      <h2 className="text-lg mt-4 font-bold">Custom Start / End GCode (Optional)</h2>
+      <h2 className="text-lg mt-4 font-bold">Custom Start / End Gcode (Optional)</h2>
       <div>
-        <TextArea value="customStartGCode" label="Custom Start GCode" 
-        register={register("customStartGCode", { setValueAs: (v) => v.split('\n') })}/>
+        <TextArea value="customStartGcode" label="Custom Start Gcode" 
+        register={register("customStartGcode", { setValueAs: (v) => v.split('\n') })}/>
 
-        <TextArea value="customEndGCode" label="Custom End GCode" 
-        register={register("customEndGCode", { setValueAs: (v) => v.split('\n') })}/>
+        <TextArea value="customEndGcode" label="Custom End Gcode" 
+        register={register("customEndGcode", { setValueAs: (v) => v.split('\n') })}/>
       </div>
     </form>
   );

@@ -5,6 +5,7 @@ export const useStore = create((set) => ({
         bedWidth: 250, // mm
         bedLength: 210, // mm
         bedMargin: 5, // mm 
+        safeZPark: 10, // mm
         filamentDiameter: 1.75, // mm
         travelSpeed: 100, // mm/s
         stabilizationTime: 20, // s
@@ -29,8 +30,8 @@ export const useStore = create((set) => ({
         tempOffset: 20, // °C
         tempSteps: 3, // unitless, (end-start)/offset
         tempEnd: 240, // °C
-        customStartGCode: '', 
-        customEndGCode: '', 
+        customStartGcode: '', 
+        customEndGcode: '', 
     },
     setOptions: (options) => set(() => ({ options: options })),
     fileName: '',

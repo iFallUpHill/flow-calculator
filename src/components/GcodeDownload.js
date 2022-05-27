@@ -3,12 +3,12 @@ import { StyledInput } from './Inputs';
 import { useStore } from "../stores/store";
 
 
-export default function GCodeDownload() {
+export default function GcodeDownload() {
     const options = useStore((state) => state.options);
     const fileName = useStore((state) => state.fileName);
     const setFileName = useStore((state) => state.setFileName);
 
-    const gcode = generateGcode(options);
+    const gcode = generateGcode(options, { addHeader: true});
     const url = URL.createObjectURL(new Blob([gcode], {
         type: "text/plain"
     }));
@@ -25,10 +25,7 @@ export default function GCodeDownload() {
     return (
         <> 
             <StyledInput type="text" value="fileName" defaultValue={fileName} label="File Name (Optional)" handleChange={(e) => {setFileName(e.target.value)}} />
-            <button className="w-full mt-4 h-12 px-6 text-white font-bold transition-colors duration-150 bg-indigo-700 rounded-md focus:shadow-outline hover:bg-indigo-800" onClick={downloadGcode}>Download GCode</button>
-            <p className="mb-0 text-center">
-                <a className="text-xs text-neutral-300 transition-colors duration-150 hover:text-neutral-500 text-center underline" href="https://github.com/iFallUpHill/flow-calculator" target="_blank" rel="noreferrer noopener nofollow">View Source on GitHub</a>
-            </p>
+            <button className="w-full mt-4 h-12 px-6 text-white font-bold transition-colors duration-150 bg-indigo-700 rounded-md focus:shadow-outline hover:bg-indigo-800" onClick={downloadGcode}>Download Gcode</button>
         </>
     )
 }
