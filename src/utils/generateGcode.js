@@ -78,7 +78,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
     output.push(";####### Start Gcode");
     output.push(`M104 S${tempStart} ; Set Nozzle Temperature`);
     output.push(`M140 S${bedTemp} ; Set Bed Temperature`);
-    output.push("G90");
+    output.push("G90 ; Absolute positioning");
     output.push("G28 ; Move to home position");
     output.push(`G0 Z${safeZPark} ; Lift nozzle`);
     output.push("G21 ; unit in mm");
@@ -138,7 +138,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
     }
     output.push("M104 S0 T0 ; Turn Off Hotend");
     output.push("M140 S0 ; Turn Off Bed");
-    output.push("M84");
+    output.push("M84 ; Disable Steppers");
 
     return output.join("\n");
 }

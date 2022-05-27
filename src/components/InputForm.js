@@ -50,7 +50,7 @@ function InputForm() {
         {errors.bedLength && <Error msg="Enter a valid bed length"/>}
 
         <Input type="number" value="bedLength" label="Bed Margin (mm)" 
-        register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 25)})}/>
+        register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 50)})}/>
         {errors.bedMargin && <Error msg="Enter a valid bed margin"/>}
 
         <Input type="number" value="safeZPark" label="Safe Z Park Height (mm, absolute above bed)" 
@@ -65,7 +65,7 @@ function InputForm() {
         />
 
         <Input type="number" value="travelSpeed" label="Travel Speed (mm/s)" 
-        register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 500)})}/>
+        register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 2000)})}/>
         {errors.travelSpeed && <Error msg="Enter a valid travel speed"/>}
 
         <Select value="direction" label="Generation Direction" register={register("direction", { required: true, valueAsNumber: true })}
@@ -102,19 +102,19 @@ function InputForm() {
 
       <h2 className="text-lg mt-4 font-bold">Extrusion Configuration</h2>
        <div className ="grid grid-cols-2 gap-x-8">
-        <Input type="number" value="primeLength" label="Prime Length (mm)" 
+        <Input type="number" value="primeLength" label="Prime Line Length (mm)" 
         register={register("primeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.primeLength && <Error msg="Enter a valid prime length"/>}
+        {errors.primeLength && <Error msg="Enter a valid prime line length"/>}
 
-        <Input type="number" value="primeAmount" label="Prime Amount (mm)" 
+        <Input type="number" value="primeAmount" label="Prime Extrude Amount (mm)" 
         register={register("primeAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.primeAmount && <Error msg="Enter a valid prime amount"/>}
+        {errors.primeAmount && <Error msg="Enter a valid amount to extrude for the priming"/>}
 
         <Input type="number" value="primeSpeed" label="Prime Speed (mm/s)" 
         register={register("primeSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
         {errors.primeSpeed && <Error msg="Enter a valid prime speed"/>}
 
-        <Input type="number" value="wipeLength" label="Wipe Length (mm)" 
+        <Input type="number" value="wipeLength" label="Prime End to Blob Start Distance (mm)" 
         register={register("wipeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
         {errors.wipeLength && <Error msg="Enter a valid wipe length"/>}
 
