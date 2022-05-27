@@ -32,10 +32,16 @@ const parseTerm = (term, obj) => {
   return result;
 };
 
-function evaluateTemplateExpression(expression, obj) {
-  console.log(`original: ${expression}`);
+function _rtvLogger(log) {
+  if (process.env.NODE_ENV === "development") {
+    console.log(log);
+  }
+}
 
-  console.log(expression.match(parenthesesRegex));
+function evaluateTemplateExpression(expression, obj) {
+  _rtvLogger(`original: ${expression}`);
+
+  _rtvLogger(expression.match(parenthesesRegex));
   while (expression.match(parenthesesRegex)) {
     expression = expression.replaceAll(parenthesesRegex, (_, abs, exp) =>
       abs
@@ -44,7 +50,7 @@ function evaluateTemplateExpression(expression, obj) {
     );
   }
 
-  console.log(`after parentheses: ${expression}`);
+  _rtvLogger(`after parentheses: ${expression}`);
 
   while (expression.match(binaryOpRegex("*/"))) {
     expression = expression.replaceAll(binaryOpRegex("*/"), (_, t1, op, t2) =>
@@ -52,7 +58,7 @@ function evaluateTemplateExpression(expression, obj) {
     );
   }
 
-  console.log(`after multiplication/division: ${expression}`);
+  _rtvLogger(`after multiplication/division: ${expression}`);
 
   while (expression.match(binaryOpRegex("+-"))) {
     expression = expression.replaceAll(binaryOpRegex("+-"), (_, t1, op, t2) =>
@@ -60,7 +66,7 @@ function evaluateTemplateExpression(expression, obj) {
     );
   }
 
-  console.log(`after addition/subtraction: ${expression}`);
+  _rtvLogger(`after addition/subtraction: ${expression}`);
 
   const result = parseTerm(expression, obj);
   if (isNaN(result)) {

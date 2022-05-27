@@ -25,8 +25,6 @@ export default function generateGcode(data, { addHeader=false }={}) {
         tempStart,
         /* eslint-disable */ 
         tempEnd,
-        startGcode,
-        endGcode
       } = data;
 
     let {
@@ -39,7 +37,8 @@ export default function generateGcode(data, { addHeader=false }={}) {
         tempOffset,
       } = data;
 
-    const maxBedLength = bedLength;
+    const startGcode = replaceTemplateVars(data.startGcode, data)
+    const endGcode = replaceTemplateVars(data.endGcode, data); 
     
     let output = [];
 
@@ -79,11 +78,9 @@ export default function generateGcode(data, { addHeader=false }={}) {
     }
 
     output.push(";####### Start Gcode");
-    console.log(fanSpeed)
-    console.log(replaceTemplateVars("${fanSpeed}", { fanSpeed:1 }))
-    // startGcode.split("\n").map(line => {
-    //     console.log(replaceTemplateVars(line, {tempStart, bedTemp, safeZPark, fanSpeed}))
-    // })
+    startGcode.split("\n").forEach(line => {
+        output.push(line);
+    })
     output.push("");
 
     for (let i = 1; i <= tempSteps; i++) {
@@ -123,9 +120,9 @@ export default function generateGcode(data, { addHeader=false }={}) {
     }
     
     output.push(";####### End Gcode");
-    // output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${maxBedLength - Math.abs(bedMargin)} ; Move to Corner`);
-    // output.push("M104 S0 T0 ; Turn Off Hotend");
-    // output.push("M140 S0 ; Turn Off Bed");
+    endGcode.split("\n").forEach(line => {
+        output.push(line);
+    })
     output.push("M84 ; Disable Steppers");
 
     return output.join("\n");

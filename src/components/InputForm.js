@@ -153,10 +153,10 @@ function InputForm() {
         <AdvancedBadge label="Advanced"/>
       </div>
       <div>
-        <TextArea value="startGcode" label="Custom Start Gcode" 
+        <TextArea value="startGcode" label="Start Gcode" 
         register={register("startGcode")}/>
 
-        <TextArea value="endGcode" label="Custom End Gcode" 
+        <TextArea value="endGcode" label="End Gcode" 
         register={register("endGcode")}/>
       </div>
 

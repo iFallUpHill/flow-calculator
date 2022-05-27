@@ -40,7 +40,7 @@ G92 E0 ; reset extruder
 M83 ; set extruder to relative mode
 M190 S\${bedTemp} ; Wait for Bed Temperature
 M106 S\${fanSpeed} ; Set Fan Speed`, 
-        endGcode: `G0 X\${bedWidth - Math.abs(bedMargin)} Y\${maxBedLength - Math.abs(bedMargin)} ; Move to Corner
+        endGcode: `G0 X\${bedWidth - bedMargin} Y\${bedLength - bedMargin} ; Move to Corner
 M104 S0 T0 ; Turn Off Hotend
 M140 S0 ; Turn Off Bed
 M84 ; Disable Steppers`, 
