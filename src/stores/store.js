@@ -30,8 +30,20 @@ export const useStore = create((set) => ({
         tempOffset: 20, // °C
         tempSteps: 3, // unitless, (end-start)/offset
         tempEnd: 240, // °C
-        customStartGcode: '', 
-        customEndGcode: '', 
+        startGcode: `M104 S\${tempStart} ; Set Nozzle Temperature
+M140 S\${bedTemp} ; Set Bed Temperature
+G90 ; Absolute positioning
+G28 ; Move to home position
+G0 Z\${safeZPark} ; Lift nozzle
+G21 ; unit in mm
+G92 E0 ; reset extruder
+M83 ; set extruder to relative mode
+M190 S\${bedTemp} ; Wait for Bed Temperature
+M106 S\${fanSpeed} ; Set Fan Speed`, 
+        endGcode: `G0 X\${bedWidth - Math.abs(bedMargin)} Y\${maxBedLength - Math.abs(bedMargin)} ; Move to Corner
+M104 S0 T0 ; Turn Off Hotend
+M140 S0 ; Turn Off Bed
+M84 ; Disable Steppers`, 
     },
     setOptions: (options) => set(() => ({ options: options })),
     fileName: '',

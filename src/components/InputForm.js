@@ -85,7 +85,7 @@ function InputForm() {
         {errors.bedTemp && <Error msg="Enter a valid bed temperature"/>}
 
         <Input type="number" value="fanSpeed" label="Fan Speed (%)" 
-        register={register("fanSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 100)})}/>
+        register={register("fanSpeed", { required: true, valueAsNumber: true, setValueAs: v => Math.round(v*255/100), validate: (value) => (value >= 0 && value <= 100)})}/>
         {errors.fanSpeed && <Error msg="Enter a valid fan speed"/>}
       </div>
       
@@ -153,11 +153,11 @@ function InputForm() {
         <AdvancedBadge label="Advanced"/>
       </div>
       <div>
-        <TextArea value="customStartGcode" label="Custom Start Gcode" 
-        register={register("customStartGcode", { setValueAs: (v) => v.split('\n') })}/>
+        <TextArea value="startGcode" label="Custom Start Gcode" 
+        register={register("startGcode")}/>
 
-        <TextArea value="customEndGcode" label="Custom End Gcode" 
-        register={register("customEndGcode", { setValueAs: (v) => v.split('\n') })}/>
+        <TextArea value="endGcode" label="Custom End Gcode" 
+        register={register("endGcode")}/>
       </div>
 
       <div className="flex mt-4 items-center gap-2">

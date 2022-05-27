@@ -67,6 +67,9 @@ const TextArea = (({ value, label, rows=4, register }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
     <textarea rows={rows} className="
+      font-mono
+      text-xs
+      whitespace-pre
       mt-2
       block
       w-full

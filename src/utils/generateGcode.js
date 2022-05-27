@@ -1,4 +1,5 @@
 import { version } from '../lib/version'
+import { replaceTemplateVars } from './replaceTemplateVars';
 
 export default function generateGcode(data, { addHeader=false }={}) {
     const {
@@ -24,8 +25,8 @@ export default function generateGcode(data, { addHeader=false }={}) {
         tempStart,
         /* eslint-disable */ 
         tempEnd,
-        customStartGcode,
-        customEndGcode,
+        startGcode,
+        endGcode
       } = data;
 
     let {
@@ -70,27 +71,19 @@ export default function generateGcode(data, { addHeader=false }={}) {
         // Generation Settings
         output.push(";####### Settings")
         for (const [key, value] of Object.entries(data)) {
-            output.push(`; ${key} = ${value}`);
+            if (key !== "startGcode" && key !== "endGcode") {
+                output.push(`; ${key} = ${value}`);
+            }
         }
         output.push("");
     }
 
     output.push(";####### Start Gcode");
-    output.push(`M104 S${tempStart} ; Set Nozzle Temperature`);
-    output.push(`M140 S${bedTemp} ; Set Bed Temperature`);
-    output.push("G90 ; Absolute positioning");
-    output.push("G28 ; Move to home position");
-    output.push(`G0 Z${safeZPark} ; Lift nozzle`);
-    output.push("G21 ; unit in mm");
-    output.push("G92 E0 ; reset extruder");
-    output.push("M83 ; set extruder to relative mode");
-    if (customStartGcode !== '' && customStartGcode.length > 0) {
-        output.push(";####### Custom Start Gcode Start");
-        output = output.concat(customStartGcode)
-        output.push(";####### Custom Start Gcode End");
-    }
-    output.push(`M190 S${bedTemp} ; Wait for Bed Temperature`);
-    output.push(`M106 S${Math.round(fanSpeed*255/100)} ; Set Fan Speed`);
+    console.log(fanSpeed)
+    console.log(replaceTemplateVars("${fanSpeed}", { fanSpeed:1 }))
+    // startGcode.split("\n").map(line => {
+    //     console.log(replaceTemplateVars(line, {tempStart, bedTemp, safeZPark, fanSpeed}))
+    // })
     output.push("");
 
     for (let i = 1; i <= tempSteps; i++) {
@@ -130,14 +123,9 @@ export default function generateGcode(data, { addHeader=false }={}) {
     }
     
     output.push(";####### End Gcode");
-    output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${maxBedLength - Math.abs(bedMargin)} ; Move to Corner`);
-    if (customEndGcode !== '' && customEndGcode.length > 0) {
-        output.push(";####### Custom End Gcode Start");
-        output = output.concat(customEndGcode)
-        output.push(";####### Custom End Gcode End");
-    }
-    output.push("M104 S0 T0 ; Turn Off Hotend");
-    output.push("M140 S0 ; Turn Off Bed");
+    // output.push(`G0 X${bedWidth - Math.abs(bedMargin)} Y${maxBedLength - Math.abs(bedMargin)} ; Move to Corner`);
+    // output.push("M104 S0 T0 ; Turn Off Hotend");
+    // output.push("M140 S0 ; Turn Off Bed");
     output.push("M84 ; Disable Steppers");
 
     return output.join("\n");
