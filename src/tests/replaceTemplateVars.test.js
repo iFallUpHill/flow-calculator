@@ -2,7 +2,7 @@ import { replaceTemplateVars } from "../utils/replaceTemplateVars";
 
 describe("replaceTemplateVars", () => {
   it("correctly evaluates mathematical expressions", () => {
-    expect(replaceTemplateVars("${5 + 6 - 3}", {})).toBe("8");
+    expect(replaceTemplateVars("${5 + 6 - 3}")).toBe("8");
   });
 
   it("correctly substitutes properties from a configuration object", () => {
@@ -14,7 +14,7 @@ describe("replaceTemplateVars", () => {
   });
 
   it("handles absolute values", () => {
-    expect(replaceTemplateVars("${Math.abs(-1)}", {})).toBe("1");
+    expect(replaceTemplateVars("${Math.abs(-1)}")).toBe("1");
   });
 
   it("can parse more complicated expressions", () => {
@@ -29,5 +29,21 @@ describe("replaceTemplateVars", () => {
     expect(replaceTemplateVars(string, config)).toBe(
       "output.push(G0 X245 Y205 ; Move to Corner);"
     );
+  });
+
+  describe("throws errors when", () => {
+    it("an expression has an empty pair of parentheses", () => {
+      expect(() => replaceTemplateVars("${()}")).toThrow();
+    });
+
+    it("an expression has an invalid binary operation", () => {
+      expect(() => replaceTemplateVars("${*5}")).toThrow();
+    });
+
+    it("an expression has a non-numeric token which is not a config option", () => {
+      expect(() =>
+        replaceTemplateVars("${one + two}", { one: 1 })
+      ).toThrowError(/two/);
+    });
   });
 });
