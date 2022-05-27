@@ -102,7 +102,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
             let extrusionSpeed = Math.round((blobHeight / (extrusionAmount / ((flowStart + (j - 1) * flowOffset) / (Math.atan(1) * filamentDiameter * filamentDiameter) * 60)) + Number.EPSILON) * 100) / 100;
 
             output.push(`;####### ${tempStart + (i - 1) * tempOffset}°C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
-            output.push(`M117 ${tempStart + (i - 1) * tempOffset}°C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
+            output.push(`M117 ${tempStart + (i - 1) * tempOffset}C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
 
             output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} Z${0.5 + blobHeight + 5} F${travelSpeed * 60}`);
             output.push(`G4 S${stabilizationTime} ; Stabilize`);
@@ -125,7 +125,6 @@ export default function generateGcode(data, { addHeader=false }={}) {
     endGcode.split("\n").forEach(line => {
         output.push(line);
     })
-    output.push("M84 ; Disable Steppers");
 
     return output.join("\n");
 }
