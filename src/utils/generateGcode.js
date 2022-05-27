@@ -4,15 +4,10 @@ import { replaceTemplateVars } from './replaceTemplateVars';
 export default function generateGcode(data, { addHeader=false }={}) {
     const {
         bedWidth,
-        /* eslint-disable */ 
-        safeZPark,
+        
         filamentDiameter,
         travelSpeed,
         stabilizationTime,
-        /* eslint-disable */ 
-        bedTemp,
-        /* eslint-disable */ 
-        fanSpeed,
         primeLength,
         primeAmount,
         primeSpeed,
@@ -27,7 +22,11 @@ export default function generateGcode(data, { addHeader=false }={}) {
         flowEnd,
         tempStart,
         /* eslint-disable */ 
+        safeZPark,
         tempEnd,
+        bedTemp,
+        fanSpeed,
+        /* eslint-enable */
       } = data;
 
     let {

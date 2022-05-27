@@ -34,7 +34,7 @@ const parseTerm = (term, obj) => {
 
 function _rtvLogger(log) {
   if (process.env.NODE_ENV === "development") {
-    console.log(log);
+    console.log();
   }
 }
 

@@ -5,6 +5,7 @@ import { useStore } from "../stores/store";
 import GcodeOverlay from './GcodeOverlay';
 
 export default function GcodePreview() {
+    const options = useStore((state) => state.options);
     const [ modelOpen, setModelOpen ] = useState(false);
 
     const showModel = () => {
@@ -19,8 +20,10 @@ export default function GcodePreview() {
         document.body.style.overflow = 'unset';
     }
 
-    const options = useStore((state) => state.options);
-    const gcode = generateGcode(options);
+    let gcode = '';
+    try { gcode = generateGcode(options); }
+    catch {}
+
     const url = URL.createObjectURL(new Blob([gcode]));
 
     return (

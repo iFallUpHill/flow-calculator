@@ -2,11 +2,17 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, StyledInput, Select, TextArea, Info, Error } from './Inputs';
 import { AdvancedBadge } from './Badges';
-import { useStore } from "../stores/store";
+import { useStore } from '../stores/store';
+import { replaceTemplateVars } from '../utils/replaceTemplateVars';
 
 function InputForm() {
   const options = useStore((state) => state.options);
   const setOptions = useStore((state) => state.setOptions);
+
+  const startGcodeError = useStore((state) => state.startGcodeError);
+  const setStartGcodeError = useStore((state) => state.setStartGcodeError);
+  const endGcodeError = useStore((state) => state.endGcodeError);
+  const setEndGcodeError = useStore((state) => state.setEndGcodeError);
 
   const {
     register,
@@ -21,6 +27,15 @@ function InputForm() {
   const updateFormData = (data) => {
     data.tempEnd = data.tempStart + (data.tempOffset * (data.tempSteps-1));
     data.flowEnd = data.flowStart + (data.flowOffset * (data.flowSteps-1));
+
+    try { replaceTemplateVars(data.startGcode) } 
+    catch (err) { setStartGcodeError(`Unable to parse start Gcode successfully.`) } 
+    finally { setStartGcodeError(``) }
+
+    try { replaceTemplateVars(data.endGcode) } 
+    catch (err) { console.log(err); setEndGcodeError(`Unable to parse end Gcode successfully.`) } 
+    finally { setStartGcodeError(``) }
+
     setOptions(data);
   }
 
@@ -53,10 +68,6 @@ function InputForm() {
         <Input type="number" value="bedLength" label="Bed Margin (mm)" 
         register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 50)})}/>
         {errors.bedMargin && <Error msg="Enter a valid bed margin"/>}
-
-        <Input type="number" value="safeZPark" label="Safe Z Park Height (mm, absolute above bed)" 
-        register={register("safeZPark", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
-        {errors.retractionSpeed && <Error msg="Enter a safe z park height"/>}
 
         <Select value="filamentDiameter" label="Filament Diameter" register={register("filamentDiameter", { required: true, valueAsNumber: true })}
           options={[
@@ -153,11 +164,20 @@ function InputForm() {
         <AdvancedBadge label="Advanced"/>
       </div>
       <div>
+        <div className ="grid grid-cols-2 gap-x-8">
+          <Input type="number" value="safeZPark" label="Safe Z Park Height (mm, absolute above bed)" 
+          register={register("safeZPark", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+          {errors.safeZPark && <Error msg="Enter a safe z park height"/>}
+        </div>
+
         <TextArea value="startGcode" label="Start Gcode" 
         register={register("startGcode")}/>
+        {startGcodeError && <Error msg="Unable to parse start Gcode."/>}
+
 
         <TextArea value="endGcode" label="End Gcode" 
         register={register("endGcode")}/>
+        {endGcodeError && <Error msg="Unable to parse end Gcode."/>}
       </div>
 
       <div className="flex mt-4 items-center gap-2">

@@ -48,4 +48,8 @@ M84 ; Disable Steppers`,
     setOptions: (options) => set(() => ({ options: options })),
     fileName: '',
     setFileName: (fileName) => set(() => ({ fileName: fileName })),
+    startGcodeError: '',
+    setStartGcodeError: (startGcodeError) => set(() => ({ startGcodeError: startGcodeError })),
+    endGcodeError: '',
+    setEndGcodeError: (endGcodeError) => set(() => ({ endGcodeError: endGcodeError })),
 }));

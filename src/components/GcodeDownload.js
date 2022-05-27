@@ -8,7 +8,10 @@ export default function GcodeDownload() {
     const fileName = useStore((state) => state.fileName);
     const setFileName = useStore((state) => state.setFileName);
 
-    const gcode = generateGcode(options, { addHeader: true});
+    let gcode = '';
+    try { gcode = generateGcode(options, true); }
+    catch {}
+
     const url = URL.createObjectURL(new Blob([gcode], {
         type: "text/plain"
     }));
