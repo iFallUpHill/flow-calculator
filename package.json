@@ -18,7 +18,7 @@
   "scripts": {
     "start": "genversion --es6 src/lib/version.js && react-scripts start",
     "build": "genversion --es6 src/lib/version.js && react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -42,6 +42,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.1",
     "autoprefixer": "^10.4.7",
+    "jest": "^28.1.0",
     "postcss": "^8.4.13",
     "tailwindcss": "^3.0.24"
   }
