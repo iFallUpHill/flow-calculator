@@ -17,12 +17,22 @@ const operators = {
 // "t1 ^ t2", where ^ is any single character of op, t1 and t2
 // are alphanumeric. Captures three groups: one, t1, two, ^ (the operation),
 // and 3, t2.
-const binaryOpRegex = (op) => new RegExp(`(\\w+)\\s*([${op}])\\s*(\\w+)`, 'g');
+const binaryOpRegex = (op) => new RegExp(`(\\w+)\\s*([${op}])\\s*(\\w+)`, "g");
 
-const parseTerm = (term, obj) => obj[term] || parseInt(term);
+const parseTerm = (term, obj) => {
+  const result = obj[term] || parseFloat(term);
+
+  if (isNaN(result)) {
+    throw new Error(
+      `Invalid term ${term}. Terms must either be numerical or be specified as properties of the configuration object.`
+    );
+  }
+
+  return result;
+};
 
 function evaluateTemplateExpression(expression, obj) {
-  console.log(`original: ${expression}`)
+  console.log(`original: ${expression}`);
 
   console.log(expression.match(parenthesesRegex));
   while (expression.match(parenthesesRegex)) {
@@ -33,8 +43,7 @@ function evaluateTemplateExpression(expression, obj) {
     );
   }
 
-
-  console.log(`after parentheses: ${expression}`)
+  console.log(`after parentheses: ${expression}`);
 
   while (expression.match(binaryOpRegex("*/"))) {
     expression = expression.replaceAll(binaryOpRegex("*/"), (_, t1, op, t2) =>
@@ -42,7 +51,7 @@ function evaluateTemplateExpression(expression, obj) {
     );
   }
 
-  console.log(`after multiplication/division: ${expression}`)
+  console.log(`after multiplication/division: ${expression}`);
 
   while (expression.match(binaryOpRegex("+-"))) {
     expression = expression.replaceAll(binaryOpRegex("+-"), (_, t1, op, t2) =>
@@ -50,9 +59,14 @@ function evaluateTemplateExpression(expression, obj) {
     );
   }
 
-  console.log(`after addition/subtraction: ${expression}`)
+  console.log(`after addition/subtraction: ${expression}`);
 
-  return parseTerm(expression, obj);
+  const result = parseTerm(expression, obj);
+  if (isNaN(result)) {
+    throw new Error(`Could not parse expression ${expression}`);
+  }
+
+  return result;
 }
 
 /**
@@ -64,7 +78,7 @@ function evaluateTemplateExpression(expression, obj) {
  * If a non-integer token is encountered, it must be specified as
  * a property of obj. If so, it will be replaced with obj[token].
  */
-export function replaceTemplateVars(string, obj={}) {
+export function replaceTemplateVars(string, obj = {}) {
   return string.replaceAll(templateRegex, (_, group) =>
     evaluateTemplateExpression(group, obj)
   );
