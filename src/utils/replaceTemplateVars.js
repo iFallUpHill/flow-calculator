@@ -20,7 +20,8 @@ const operators = {
 const binaryOpRegex = (op) => new RegExp(`(\\w+)\\s*([${op}])\\s*(\\w+)`, "g");
 
 const parseTerm = (term, obj) => {
-  const result = obj[term] || parseFloat(term);
+  // https://stackoverflow.com/questions/45839240/allow-for-zero-value-in-short-circuit-evaluation
+  const result = +(obj[term] !== 0) && (obj[term] || parseFloat(term));
 
   if (isNaN(result)) {
     throw new Error(

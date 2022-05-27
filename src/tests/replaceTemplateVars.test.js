@@ -17,6 +17,10 @@ describe("replaceTemplateVars", () => {
     expect(replaceTemplateVars("${Math.abs(-1)}")).toBe("1");
   });
 
+  it("handles parsed zero", () => {
+    expect(replaceTemplateVars("${zero}", { zero: 0 })).toBe("0");
+  });
+
   it("can parse more complicated expressions", () => {
     const string =
       "output.push(G0 X${bedWidth - Math.abs(bedMargin)} Y${maxBedLength - Math.abs(bedMargin)} ; Move to Corner);";
