@@ -17,7 +17,7 @@ export default function GcodeDownload() {
         const element = document.createElement("a");
         element.href = url;
         const datestamp = new Date().toISOString().replace(/T/, '_').replace(/:/g, '-').replace(/\..+/, '')
-        element.download = `${fileName ? fileName.replace(/[/\\?%*:|"<> ]/g, '_') + '-' : ''}${datestamp}.gcode`;
+        element.download = `${fileName ? fileName.replace(/[/\\?%*:|"<> ]/g, '_') + '-' : ''}Flow_Test-${datestamp}.gcode`;
         document.body.appendChild(element);
         element.click();
       };
