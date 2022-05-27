@@ -28,13 +28,17 @@ function InputForm() {
     data.tempEnd = data.tempStart + (data.tempOffset * (data.tempSteps-1));
     data.flowEnd = data.flowStart + (data.flowOffset * (data.flowSteps-1));
 
-    try { replaceTemplateVars(data.startGcode) } 
-    catch (err) { setStartGcodeError(``) } 
-    finally { setStartGcodeError(``) }
+    try { 
+      replaceTemplateVars(data.startGcode, data);
+      setStartGcodeError(``);
+    } 
+    catch (err) { console.log(err); setStartGcodeError(`Unable to parse supplied Gcode.`) } 
 
-    try { replaceTemplateVars(data.endGcode) } 
-    catch (err) { setEndGcodeError(``) } 
-    finally { setStartGcodeError(``) }
+    try { 
+      replaceTemplateVars(data.endGcode, data)
+      setEndGcodeError(``);
+     } 
+    catch (err) { setEndGcodeError(`Unable to parse supplied Gcode.`) } 
 
     setOptions(data);
   }
@@ -172,11 +176,11 @@ function InputForm() {
 
         <TextArea value="startGcode" label="Start Gcode" 
         register={register("startGcode")}/>
-        {startGcodeError && <Error msg="Unable to parse start Gcode."/>}
+        {startGcodeError && <Error msg={startGcodeError} />}
 
         <TextArea value="endGcode" label="End Gcode" 
         register={register("endGcode")}/>
-        {endGcodeError && <Error msg="Unable to parse end Gcode."/>}
+        {endGcodeError && <Error msg={endGcodeError} />}
       </div>
 
       <div className="flex mt-4 items-center gap-2">
