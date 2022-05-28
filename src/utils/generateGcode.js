@@ -3,8 +3,6 @@ import { replaceTemplateVars } from './replaceTemplateVars';
 
 export default function generateGcode(data, { addHeader=false }={}) {
     const {
-        bedWidth,
-        
         filamentDiameter,
         travelSpeed,
         dwellTime,
@@ -22,6 +20,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
         flowEnd,
         tempStart,
         /* eslint-disable */ 
+        bedWidth,
         safeZPark,
         tempEnd,
         bedTemp,

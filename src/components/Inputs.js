@@ -1,11 +1,15 @@
 import React from 'react';
 
-const Input = (({ value, label, type, step=1, unit='', description='', register }) => (
+const Label = (({value, label, description=""}) => (
+  <div>
+    <label htmlFor={value} className={`text-gray-700 block ${description.length > 0 ? 'mt-2' : 'mt-4'}`}>{label}</label>
+    {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
+  </div>
+));
+
+const Input = (({ value, label, type, step=1, unit="", description="", register }) => (
   <>
-    <div>
-      <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
-      {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
-    </div>
+    <Label value={value} label={label} description={description} />
     <div className="flex flex-wrap items-stretch relative mt-2">
       <input type={type} step={step} className={`
         flex-shrink flex-grow flex-1
@@ -25,12 +29,9 @@ const Input = (({ value, label, type, step=1, unit='', description='', register 
     </>
 ));
 
-const StyledInput = (({ value='', label, type, step=1, unit='', description='', defaultValue='', disabled=false, handleChange=null }) => (
+const StyledInput = (({ value="", label, type, step=1, unit="", description="", defaultValue="", disabled=false, handleChange=null }) => (
   <>
-    <div>
-      <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
-      {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
-    </div>
+    <Label value={value} label={label} description={description} />
     <div className="flex flex-wrap items-stretch relative mt-2">
       <input type={type} step={step} disabled={disabled} className={`
         flex-shrink flex-grow flex-1
@@ -59,9 +60,9 @@ const UnitField = (({unit}) => (
     </div>
 ));
 
-const Select = (({ value, label, options, register }) => (
+const Select = (({ value, label, options, description="", register }) => (
   <>
-    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+    <Label value={value} label={label} description={description} />
     <select className="
       mt-2
       block
@@ -87,9 +88,9 @@ const Error = ({ msg }) => (
   <span className="text-xs text-red-700 col-start-2">{msg}</span>
 );
 
-const TextArea = (({ value, label, rows=4, register }) => (
+const TextArea = (({ value, label, rows=4, description="", register }) => (
   <>
-    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+    <Label value={value} label={label} description={description} />
     <textarea rows={rows} className="
       font-mono
       text-xs
