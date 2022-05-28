@@ -1,37 +1,57 @@
 import React from 'react';
 
-const Input = (({ value, label, type, step=1, register }) => (
+const Input = (({ value, label, type, step=1, unit='', register }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
-    <input type={type} step={step} className="
-      mt-2
-      block
-      w-full
-      rounded-md
-      border-gray-300
-      shadow-sm
-      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-      "
-      {...register}/>
+    <div className="flex flex-wrap items-stretch relative mt-2">
+      <input type={type} step={step} className={`
+        flex-shrink flex-grow flex-1
+        block
+        relative
+        w-full
+        rounded-md
+        border-gray-300
+        shadow-sm
+        ${unit ? 'rounded-r-none' : ''}
+        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 focus:rounded-md
+        `}
+        {...register}/>
+      {unit && <div className="flex w-16">
+				  <div className="flex items-center justify-center grow bg-zinc-100 rounded-md rounded-l-none border border-l-0 border-gray-300 px-3 shadow-sm text-xs">
+            <span>{unit}</span>
+          </div>
+			</div>}	
+    </div>
+
     </>
 ));
 
-const StyledInput = (({ value='', label, type, step=1, defaultValue='', disabled=false, handleChange=null }) => (
+const StyledInput = (({ value='', label, type, step=1, unit='', defaultValue='', disabled=false, handleChange=null }) => (
   <>
     <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
-    <input type={type} step={step} disabled={disabled} className={`
-      mt-2
-      block
-      w-full
-      rounded-md
-      border-gray-300
-      shadow-sm
-      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-      ${disabled ? 'text-zinc-300 cursor-help' : ''}
-      `}
-      value={defaultValue}
-      onChange={handleChange}/>
-    </>
+    <div className="flex flex-wrap items-stretch relative mt-2">
+      <input type={type} step={step} disabled={disabled} className={`
+        flex-shrink flex-grow flex-1
+        block
+        relative
+        w-full
+        rounded-md
+        border-gray-300
+        shadow-sm
+        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 focus:rounded-md
+        ${unit ? 'rounded-r-none' : ''}
+        ${disabled ? 'text-zinc-300 cursor-help' : ''}
+        `}
+        value={defaultValue}
+        onChange={handleChange}/>
+      {unit && <div className="flex w-16">
+				  <div className="flex items-center justify-center grow bg-zinc-100 rounded-md rounded-l-none border border-l-0 border-gray-300 px-3 shadow-sm text-xs">
+            <span>{unit}</span>
+          </div>
+			</div>}	
+    </div>
+  </>
+
 ));
 
 
