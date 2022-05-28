@@ -46,7 +46,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
 
     // Fill Flow Mode
     if (tempSteps === 1) {
-        const maxFlowStepsPerColumn = Math.floor(((bedWidth - 2 * bedMargin) + flowSpacing)/ flowSpacing);
+        const maxFlowStepsPerColumn = Math.floor(((bedLength - 2 * bedMargin) + flowSpacing)/ flowSpacing);
         if (flowSteps > maxFlowStepsPerColumn) {
             tempSteps = Math.ceil(flowSteps / maxFlowStepsPerColumn);
             flowSteps =  maxFlowStepsPerColumn;
