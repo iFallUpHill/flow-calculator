@@ -7,7 +7,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
         
         filamentDiameter,
         travelSpeed,
-        stabilizationTime,
+        dwellTime,
         primeLength,
         primeAmount,
         primeSpeed,
@@ -105,7 +105,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
             output.push(`M117 ${tempStart + (i - 1) * tempOffset}C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
 
             output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} Z${0.5 + blobHeight + 5} F${travelSpeed * 60}`);
-            output.push(`G4 S${stabilizationTime} ; Stabilize`);
+            output.push(`G4 S${dwellTime} ; Dwell`);
             output.push("G0 Z0.3 ; Drop down");
             output.push(`G1 X${Math.abs(bedMargin) + primeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} E${primeAmount} F${(primeSpeed * 60)} ; Prime`);
             output.push(`G1 E${-1 * retractionDistance} F${retractionSpeed * 60} ; Retract`);

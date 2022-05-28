@@ -8,7 +8,7 @@ export const useStore = create((set) => ({
         safeZPark: 10, // mm
         filamentDiameter: 1.75, // mm
         travelSpeed: 100, // mm/s
-        stabilizationTime: 20, // s
+        dwellTime: 20, // s
         bedTemp: 60, // °C
         fanSpeed: 0, // % * 100
         primeLength: 25, // mm

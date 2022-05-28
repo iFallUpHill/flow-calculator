@@ -59,7 +59,7 @@ function InputForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-lg mt-4 font-bold">Printer Configuration</h2>
+      <h2 className="text-lg mt-4 font-bold">Printer Dimensions</h2>
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="bedWidth" label="Bed Width" unit="mm"
         register={register("bedWidth", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
@@ -69,10 +69,20 @@ function InputForm() {
         register={register("bedLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
         {errors.bedLength && <Error msg="Enter a valid bed length"/>}
 
-        <Input type="number" value="bedLength" label="Bed Margin" unit="mm"
+        <Input type="number" value="bedMargin" label="Bed Margin" unit="mm"
         register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 50)})}/>
         {errors.bedMargin && <Error msg="Enter a valid bed margin"/>}
 
+        <Select value="direction" label="Generation Direction" register={register("direction", { required: true, valueAsNumber: true })}
+          options={[
+            {value: 1, label: "Front to Back"},
+            {value: -1, label: "Back to Front"}
+          ]}
+        />
+      </div>
+
+      <h2 className="text-lg mt-4 font-bold">Printer Settings</h2>
+      <div className ="grid grid-cols-2 gap-x-8">
         <Select value="filamentDiameter" label="Filament Diameter" register={register("filamentDiameter", { required: true, valueAsNumber: true })}
           options={[
             {value: 1.75, label: "1.75mm"},
@@ -84,16 +94,6 @@ function InputForm() {
         register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 2000)})}/>
         {errors.travelSpeed && <Error msg="Enter a valid travel speed"/>}
 
-        <Select value="direction" label="Generation Direction" register={register("direction", { required: true, valueAsNumber: true })}
-          options={[
-            {value: 1, label: "Front to Back"},
-            {value: -1, label: "Back to Front"}
-          ]}
-        />
-
-        <Input type="number" value="stabilizationTime" label="Stabilization Time" unit="s"
-        register={register("stabilizationTime", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 30)})}/>
-        {errors.stabilizationTime && <Error msg="Enter a valid stabilization time"/>}
 
         <Input type="number" value="bedTemp" label="Bed Temperature" unit="°C"
         register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 150)})}/>
@@ -105,7 +105,7 @@ function InputForm() {
       </div>
       
 
-      <h2 className="text-lg mt-4 font-bold">Extruder Configuration</h2>
+      <h2 className="text-lg mt-4 font-bold">Retraction Settings</h2>
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" step={0.01} value="retractionDistance" label="Retraction Distance" unit="mm"
         register={register("retractionDistance", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 10)})}/>
@@ -116,7 +116,7 @@ function InputForm() {
         {errors.retractionSpeed && <Error msg="Enter a valid retraction speed"/>}
       </div>
 
-      <h2 className="text-lg mt-4 font-bold">Spacing</h2>
+      <h2 className="text-lg mt-4 font-bold">Pattern Configuration</h2>
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="flowSpacing" label="Flow Spacing - Rows" unit="mm"
         register={register("flowSpacing", { required: true, valueAsNumber: true, validate: (value) => (value >= 25 && value <= 500)})}/>
@@ -125,6 +125,10 @@ function InputForm() {
         <Input type="number" value="tempSpacing" label="Temperature Spacing - Columns" unit="mm"
         register={register("tempSpacing", { required: true, valueAsNumber: true, validate: (value) => (value >= 25 && value <= 500)})}/>
         {errors.tempSpacing && <Error msg="Enter a valid temperature spacing"/>}
+
+        <Input type="number" value="dwellTime" label="Dwell Time" unit="s"
+        register={register("dwellTime", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 30)})}/>
+        {errors.dwellTime && <Error msg="Enter a valid dwell time"/>}
       </div>
 
       <h2 className="text-lg mt-4 font-bold">Flow Test (Rows)</h2>
