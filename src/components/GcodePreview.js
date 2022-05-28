@@ -36,7 +36,7 @@ export default function GcodePreview() {
             topLayerColor="#ff0000"
             url={url}
             floorProps={{gridWidth: options.bedWidth,
-                gridLength: options.bedWidth,
+                gridLength: options.bedLength,
             }}/>
             <button onClick={() => showModel()} className="w-full px-2 py-2 rounded-bl-md rounded-br-md mb-1 text-sky-600 font-bold transition-colors duration-150 bg-sky-200 focus:shadow-outline hover:bg-sky-300">Inspect Gcode</button>
             <GcodeOverlay isOpen={modelOpen} handleClose={() => closeModelHandler()} contents={gcode} />
