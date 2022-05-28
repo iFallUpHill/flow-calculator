@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Input = (({ value, label, type, step=1, unit='', register }) => (
+const Input = (({ value, label, type, step=1, unit='', description='', register }) => (
   <>
-    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+    <div>
+      <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+      {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
+    </div>
     <div className="flex flex-wrap items-stretch relative mt-2">
       <input type={type} step={step} className={`
         flex-shrink flex-grow flex-1
@@ -16,15 +19,18 @@ const Input = (({ value, label, type, step=1, unit='', register }) => (
         focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 focus:rounded-md
         `}
         {...register}/>
-      {unit !== '' && <UnitField unit={unit} />}
+      {unit.length > 0 && <UnitField unit={unit} />}
     </div>
 
     </>
 ));
 
-const StyledInput = (({ value='', label, type, step=1, unit='', defaultValue='', disabled=false, handleChange=null }) => (
+const StyledInput = (({ value='', label, type, step=1, unit='', description='', defaultValue='', disabled=false, handleChange=null }) => (
   <>
-    <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+    <div>
+      <label htmlFor={value} className="text-gray-700 block mt-4">{label}</label>
+      {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
+    </div>
     <div className="flex flex-wrap items-stretch relative mt-2">
       <input type={type} step={step} disabled={disabled} className={`
         flex-shrink flex-grow flex-1
@@ -40,20 +46,18 @@ const StyledInput = (({ value='', label, type, step=1, unit='', defaultValue='',
         `}
         value={defaultValue}
         onChange={handleChange}/>
-      {unit !== '' && <UnitField unit={unit} />}	
+      {unit.length > 0 && <UnitField unit={unit} />}	
     </div>
   </>
 ));
 
-const UnitField = ({unit}) => {
-  return (
+const UnitField = (({unit}) => (
     <div className="flex w-16">
         <div className="flex items-center justify-center grow bg-zinc-100 rounded-md rounded-l-none border border-l-0 border-gray-300 px-3 shadow-sm text-xs">
           <span>{unit}</span>
         </div>
     </div>
-  )
-};
+));
 
 const Select = (({ value, label, options, register }) => (
   <>
