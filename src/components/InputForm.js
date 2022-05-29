@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Input, Select, TextArea, Info, Error } from './Inputs';
+import { Input, Select, TextArea, Info, Error, Warning } from './Inputs';
 import { AdvancedBadge } from './Badges';
 import { useStore } from '../stores/store';
 import { replaceTemplateVars } from '../utils/replaceTemplateVars';
+import { validMaxFlowStepsPerColumn, validMaxTempSteps } from '../utils/boundaryChecks';
 
 function InputForm() {
   const options = useStore((state) => state.options);
@@ -159,8 +160,10 @@ function InputForm() {
 
         <Input type="number" value="flowSteps" label="Flow Steps" 
         description="Inclusive; Number of flow steps to test"
-        register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 30)})}/>
+        register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 40)})}/>
         {errors.flowSteps && <Error msg="Enter a valid number of flow steps"/>}
+        {options.tempSteps > 1 && !errors.flowSteps && options.flowSteps > validMaxFlowStepsPerColumn() && <Warning msg="Requested flow steps exceed bed length"/>}
+        {options.tempSteps === 1 && !errors.flowSteps && options.flowSteps > (validMaxFlowStepsPerColumn() * validMaxTempSteps()) && <Warning msg="Requested flow steps exceed bed size"/>}
 
         <Input type="number" defaultValue={options.flowEnd} label="End Flow" unit="mm³/s" disabled={true} 
         description="Requested flow rate for last flow test in sequence"/>
@@ -183,6 +186,8 @@ function InputForm() {
         description="Inclusive; Set to 1 to fill plate with flow steps instead"
         register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 10)})}/>
         {errors.tempSteps && <Error msg="Enter a valid number of temperature steps"/>}
+        {options.tempSteps !== 1 && !errors.tempSteps && options.tempSteps > validMaxTempSteps() && <Warning msg="Requested temp steps exceed bed width"/>}
+
 
         <Input type="number" defaultValue={options.tempEnd} label="End Temperature" unit="°C" disabled={true} 
         description="Hotend temperature for last temperature column" />

@@ -1,5 +1,6 @@
 import { version } from '../lib/version'
 import { replaceTemplateVars } from './replaceTemplateVars';
+import { validMaxFlowStepsPerColumn } from './boundaryChecks';
 
 export default function generateGcode(data, { addHeader=false }={}) {
     const {
@@ -45,7 +46,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
 
     // Fill Flow Mode
     if (tempSteps === 1) {
-        const maxFlowStepsPerColumn = Math.floor(((bedLength - 2 * bedMargin) + flowSpacing)/ flowSpacing);
+        const maxFlowStepsPerColumn = validMaxFlowStepsPerColumn();
         if (flowSteps > maxFlowStepsPerColumn) {
             tempSteps = Math.ceil(flowSteps / maxFlowStepsPerColumn);
             flowSteps =  maxFlowStepsPerColumn;

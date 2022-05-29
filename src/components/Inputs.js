@@ -74,6 +74,10 @@ const Error = ({ msg }) => (
   <span className="text-xs text-red-700 col-start-2">{msg}</span>
 );
 
+const Warning = ({ msg }) => (
+  <span className="text-xs text-amber-500 col-start-2">{msg}</span>
+);
+
 const TextArea = (({ value, label, rows=4, description="", register }) => (
   <>
     <Label value={value} label={label} description={description} />
@@ -100,5 +104,6 @@ export {
   TextArea,
   Info,
   Error,
+  Warning,
 }
 
