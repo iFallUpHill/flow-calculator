@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Input, StyledInput, Select, TextArea, Info, Error } from './Inputs';
+import { Input, Select, TextArea, Info, Error } from './Inputs';
 import { AdvancedBadge } from './Badges';
 import { useStore } from '../stores/store';
 import { replaceTemplateVars } from '../utils/replaceTemplateVars';
@@ -8,6 +8,9 @@ import { replaceTemplateVars } from '../utils/replaceTemplateVars';
 function InputForm() {
   const options = useStore((state) => state.options);
   const setOptions = useStore((state) => state.setOptions);
+
+  const showVariableNames = useStore((state) => state.showVariableNames);
+  const setShowVariableNames = useStore((state) => state.setShowVariableNames);
 
   const startGcodeError = useStore((state) => state.startGcodeError);
   const setStartGcodeError = useStore((state) => state.setStartGcodeError);
@@ -159,7 +162,7 @@ function InputForm() {
         register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 30)})}/>
         {errors.flowSteps && <Error msg="Enter a valid number of flow steps"/>}
 
-        <StyledInput type="number" defaultValue={options.flowEnd} label="End Flow" unit="mm³/s" disabled={true} 
+        <Input type="number" defaultValue={options.flowEnd} label="End Flow" unit="mm³/s" disabled={true} 
         description="Requested flow rate for last flow test in sequence"/>
         <Info msg="End flow is a calculated value." />
       </div>
@@ -181,7 +184,7 @@ function InputForm() {
         register={register("tempSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 10)})}/>
         {errors.tempSteps && <Error msg="Enter a valid number of temperature steps"/>}
 
-        <StyledInput type="number" defaultValue={options.tempEnd} label="End Temperature" unit="°C" disabled={true} 
+        <Input type="number" defaultValue={options.tempEnd} label="End Temperature" unit="°C" disabled={true} 
         description="Hotend temperature for last temperature column" />
         <Info msg="End temperature is a calculated value." />
       </div>
@@ -196,7 +199,17 @@ function InputForm() {
           description="Absolute position; Safe height to park toolhead"
           register={register("safeZPark", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
           {errors.safeZPark && <Error msg="Enter a safe z park height"/>}
+        
+          <Select value="showVariableNames" label="Show Variable Names"
+            description="For use in custom start and end Gcode"
+            handleChange={(e) => { setShowVariableNames(e.target.value); }}
+            options={[
+              {value: false, label: "Hide"},
+              {value: true, label: "Show"}
+            ]}
+          />
         </div>
+
 
         <TextArea value="startGcode" label="Start Gcode" 
         register={register("startGcode")}/>

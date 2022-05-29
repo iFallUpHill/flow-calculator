@@ -7,29 +7,7 @@ const Label = (({value, label, description=""}) => (
   </div>
 ));
 
-const Input = (({ value, label, type, step=1, unit="", description="", register }) => (
-  <>
-    <Label value={value} label={label} description={description} />
-    <div className="flex flex-wrap items-stretch relative mt-2">
-      <input type={type} step={step} className={`
-        flex-shrink flex-grow flex-1
-        block
-        relative
-        w-full
-        rounded-md
-        border-gray-300
-        shadow-sm
-        ${unit ? 'rounded-r-none' : ''}
-        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 focus:rounded-md
-        `}
-        {...register}/>
-      {unit.length > 0 && <UnitField unit={unit} />}
-    </div>
-
-    </>
-));
-
-const StyledInput = (({ value="", label, type, step=1, unit="", description="", defaultValue="", disabled=false, handleChange=null }) => (
+const Input = (({ value="", label, type, step=1, unit="", description="", defaultValue=undefined, disabled=false, handleChange=null, register={} }) => (
   <>
     <Label value={value} label={label} description={description} />
     <div className="flex flex-wrap items-stretch relative mt-2">
@@ -46,7 +24,8 @@ const StyledInput = (({ value="", label, type, step=1, unit="", description="", 
         ${disabled ? 'text-zinc-300 cursor-help' : ''}
         `}
         value={defaultValue}
-        onChange={handleChange}/>
+        onChange={handleChange}
+        {...register}/>
       {unit.length > 0 && <UnitField unit={unit} />}	
     </div>
   </>
@@ -60,7 +39,7 @@ const UnitField = (({unit}) => (
     </div>
 ));
 
-const Select = (({ value, label, options, description="", register }) => (
+const Select = (({ value, label, options, description="", handleChange=null, register={} }) => (
   <>
     <Label value={value} label={label} description={description} />
     <select className="
@@ -72,6 +51,7 @@ const Select = (({ value, label, options, description="", register }) => (
       shadow-sm
       focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
       "
+      onChange={handleChange}
       {...register}>
         {options.map(option => (
           <option value={option.value} key={option.label}>{option.label}</option>
@@ -111,7 +91,6 @@ const TextArea = (({ value, label, rows=4, description="", register }) => (
 export {
   Input,
   Select,
-  StyledInput,
   TextArea,
   Info,
   Error,
