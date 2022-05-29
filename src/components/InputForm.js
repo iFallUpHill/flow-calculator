@@ -64,17 +64,17 @@ function InputForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2 className="text-lg mt-4 font-bold">Printer Dimensions</h2>
       <div className ="grid grid-cols-2 gap-x-8">
-        <Input type="number" value="bedWidth" label="Bed Width" unit="mm"
+        <Input type="number" value="bedWidth" label="Bed Width" unit="mm" hasVariable
         description="Width of print bed (i.e. X-axis length)"
         register={register("bedWidth", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
         {errors.bedWidth && <Error msg="Enter a valid bed width"/>}
 
-        <Input type="number" value="bedLength" label="Bed Length" unit="mm"
+        <Input type="number" value="bedLength" label="Bed Length" unit="mm" hasVariable
         description="Length of print bed (i.e. Y-axis length)"
         register={register("bedLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
         {errors.bedLength && <Error msg="Enter a valid bed length"/>}
 
-        <Input type="number" value="bedMargin" label="Bed Margin" unit="mm"
+        <Input type="number" value="bedMargin" label="Bed Margin" unit="mm" hasVariable
         description="Safe distance from edge of bed to print on"
         register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 50)})}/>
         {errors.bedMargin && <Error msg="Enter a valid bed margin"/>}
@@ -102,12 +102,12 @@ function InputForm() {
         description="Speed for non-printing moves"
         register={register("travelSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 2000)})}/>
 
-        <Input type="number" value="bedTemp" label="Bed Temperature" unit="°C"
+        <Input type="number" value="bedTemp" label="Bed Temperature" unit="°C" hasVariable
         description="Temperature of print bed"
         register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 150)})}/>
         {errors.bedTemp && <Error msg="Enter a valid bed temperature"/>}
 
-        <Input type="number" value="fanSpeed" label="Fan Speed" unit="%" 
+        <Input type="number" value="fanSpeed" label="Fan Speed" unit="%"  hasVariable
         description="Speed of part cooling fan"
         register={register("fanSpeed", { required: true, valueAsNumber: true, setValueAs: v => Math.round(v*255/100), validate: (value) => (value >= 0 && value <= 100)})}/>
         {errors.fanSpeed && <Error msg="Enter a valid fan speed"/>}
@@ -169,7 +169,7 @@ function InputForm() {
 
       <h2 className="text-lg mt-4 font-bold">Temperature Test (Columns)</h2>
       <div className ="grid grid-cols-2 gap-x-8">
-        <Input type="number" value="tempStart" label="Start Temperature" unit="°C"
+        <Input type="number" value="tempStart" label="Start Temperature" unit="°C" hasVariable
         description="Hotend temperature for first temperature column"
         register={register("tempStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 155 && value <= 450)})}/>
         {errors.tempStart && <Error msg="Enter a valid start temperature"/>}
@@ -195,14 +195,14 @@ function InputForm() {
       </div>
       <div>
         <div className ="grid grid-cols-2 gap-x-8">
-          <Input type="number" value="safeZPark" label="Safe Z Park Height" unit="mm"
+          <Input type="number" value="safeZPark" label="Safe Z Park Height" unit="mm" hasVariable
           description="Absolute position; Safe height to park toolhead"
           register={register("safeZPark", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
           {errors.safeZPark && <Error msg="Enter a safe z park height"/>}
         
           <Select value="showVariableNames" label="Show Variable Names"
             description="For use in custom start and end Gcode"
-            handleChange={(e) => { setShowVariableNames(e.target.value); }}
+            handleChange={(e) => { setShowVariableNames(e.target.value) }}
             options={[
               {value: false, label: "Hide"},
               {value: true, label: "Show"}
@@ -212,10 +212,12 @@ function InputForm() {
 
 
         <TextArea value="startGcode" label="Start Gcode" 
+        description="Variables within ${variable} will be evaluated. +, -, *, /, and Math.abs(variable) are also supported."
         register={register("startGcode")}/>
         {startGcodeError && <Error msg={startGcodeError} />}
 
         <TextArea value="endGcode" label="End Gcode" 
+        description="Variables within ${variable} will be evaluated. +, -, *, /, and Math.abs(variable) are also supported."
         register={register("endGcode")}/>
         {endGcodeError && <Error msg={endGcodeError} />}
       </div>
@@ -240,7 +242,7 @@ function InputForm() {
         register={register("primeSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
         {errors.primeSpeed && <Error msg="Enter a valid prime speed"/>}
 
-        <Input type="number" value="wipeLength" label="Prime End to Blob Center Distance" unit="mm"
+        <Input type="number" value="wipeLength" label="Wipe Length" unit="mm"
         description="Distance between prime line end and blob center"
         register={register("wipeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
         {errors.wipeLength && <Error msg="Enter a valid wipe length"/>}

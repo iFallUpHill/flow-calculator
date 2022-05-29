@@ -1,15 +1,21 @@
 import React from 'react';
+import { LabelBadge } from './Badges';
+import { useStore } from '../stores/store';
 
-const Label = (({value, label, description=""}) => (
-  <div>
-    <label htmlFor={value} className={`text-gray-700 block ${description.length > 0 ? 'mt-2' : 'mt-4'}`}>{label}</label>
-    {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
-  </div>
-));
+const Label = (({value, label, description="", hasVariable=false}) => {
+  const showVariableNames = useStore((state) => state.showVariableNames);
+  const showLabel = showVariableNames && hasVariable;
 
-const Input = (({ value="", label, type, step=1, unit="", description="", defaultValue=undefined, disabled=false, handleChange=null, register={} }) => (
+  return (
+    <div>
+      <label htmlFor={value} className={`text-gray-700 block ${description.length > 0 ? 'mt-2' : 'mt-4'}`}>{label} {showLabel && <LabelBadge label={value} />}</label>
+      {description.length > 0 && <p className="text-xs text-zinc-400">{description}</p>}
+    </div>
+)});
+
+const Input = (({ value="", label, type, step=1, unit="", description="", defaultValue=undefined, disabled=false, hasVariable=false, handleChange=null, register={} }) => (
   <>
-    <Label value={value} label={label} description={description} />
+    <Label value={value} label={label} description={description} hasVariable={hasVariable} />
     <div className="flex flex-wrap items-stretch relative mt-2">
       <input type={type} step={step} disabled={disabled} className={`
         flex-shrink flex-grow flex-1
@@ -39,9 +45,9 @@ const UnitField = (({unit}) => (
     </div>
 ));
 
-const Select = (({ value, label, options, description="", handleChange=null, register={} }) => (
+const Select = (({ value, label, options, description="", hasVariable=false, handleChange=null, register={} }) => (
   <>
-    <Label value={value} label={label} description={description} />
+    <Label value={value} label={label} description={description} hasVariable={hasVariable} />
     <select className="
       mt-2
       block
@@ -75,7 +81,7 @@ const TextArea = (({ value, label, rows=4, description="", register }) => (
       font-mono
       text-xs
       whitespace-pre
-      mt-2
+      mt-1
       block
       w-full
       rounded-md
