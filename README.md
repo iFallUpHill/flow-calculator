@@ -13,5 +13,6 @@ Verify all generated Gcode from this tool before attempting to print it. You are
 
 - [React GCode Viewer](https://github.com/GabrielMusat/react-gcode-viewer)
 - [React Hook Form](https://github.com/react-hook-form/react-hook-form)
+- [React Hot Toast](https://github.com/timolins/react-hot-toast)
 - [tailwindcss](https://github.com/tailwindlabs/tailwindcss)
 - [tailwindcss-forms](https://github.com/tailwindlabs/tailwindcss-forms)

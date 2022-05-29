@@ -4,9 +4,12 @@ import GcodeDownload from "./components/GcodeDownload";
 import Credits from "./components/Credits";
 import { TitleBadges } from "./components/Badges";
 import { SlimAlert } from "./components/Banners";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
+    <>
+    <Toaster />
     <div className=" bg-slate-50">
       <div className="flex max-w-screen-xl">
         <aside className="h-screen sticky top-0 w-96 bg-white drop-shadow overflow-y-scroll shrink-0">
@@ -39,6 +42,7 @@ function App() {
         </main>
       </div>
     </div>
+    </>
   );
 }
 
