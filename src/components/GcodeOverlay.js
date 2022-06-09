@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import downloadGcode from "../utils/downloadGcode";
+import { SuccessToast } from './Toasts';
 
 export default function GcodeOverlay({ isOpen, handleClose, contents }) {
 
@@ -45,26 +46,8 @@ export default function GcodeOverlay({ isOpen, handleClose, contents }) {
             className="absolute right-0 top-0 mt-4 mr-14"
             onClick={() => {
               toast.custom(
-                (t) => (
-                  <div
-                    className={`bg-white px-4 py-2 shadow-sm rounded-md flex items-center gap-2 ${
-                      t.visible ? "animate-slide-in" : "animate-leave"
-                    }`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-emerald-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="mr-1">Copied to Clipboard</span>
-                  </div>
+                ({visible}) => (
+                  <SuccessToast visible={visible} label="Copied to Clipboard" />
                 ),
                 { duration: 1250 }
               );

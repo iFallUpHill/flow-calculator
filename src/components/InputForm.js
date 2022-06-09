@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from "react-hot-toast";
+
 import { Input, Select, TextArea, Info, Error, Warning } from './Inputs';
 import { AdvancedBadge, WarningBadge } from './Badges';
 import { SlimButton } from './Buttons';
@@ -7,6 +9,7 @@ import { useStore } from '../stores/store';
 import { replaceTemplateVars } from '../utils/replaceTemplateVars';
 import { validMaxFlowStepsPerColumn, validMaxTempSteps } from '../utils/boundaryChecks';
 import { prusaMK3SDefaults } from '../lib/presets/prusa-mk3s';
+import { SuccessToast } from './Toasts';
 
 function InputForm() {
   const options = useStore((state) => state.options);
@@ -55,7 +58,7 @@ function InputForm() {
   }
 
   const resetForm = () => {
-    setShowVariableNames(false);
+    if (showVariableNames === true ) { setShowVariableNames()}
     reset(prusaMK3SDefaults);
   }
 
@@ -278,7 +281,16 @@ function InputForm() {
         <WarningBadge label="Experimental"/>
       </div>
       <div className ="w-48">
-        <SlimButton label="Reset Options" color="text-zinc-600" bgColors="bg-zinc-200 hover:bg-zinc-300" handleClick={resetForm} />
+        <SlimButton label="Reset Options" color="text-zinc-600" bgColors="bg-zinc-200 hover:bg-zinc-300" 
+          handleClick={() => {
+            toast.custom(
+              ({visible}) => (
+                <SuccessToast visible={visible} label="Options Reset" />
+              ),
+              { duration: 1250 }
+            );
+            resetForm()
+            }} />
       </div>
     </form>
   );
