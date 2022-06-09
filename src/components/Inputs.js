@@ -45,7 +45,7 @@ const UnitField = (({unit}) => (
     </div>
 ));
 
-const Select = (({ value, label, options, description="", hasVariable=false, handleChange=null, register={} }) => (
+const Select = (({ value, label, options, description="", targetValue=undefined, hasVariable=false, handleChange=null, register={} }) => (
   <>
     <Label value={value} label={label} description={description} hasVariable={hasVariable} />
     <select className="
@@ -57,6 +57,7 @@ const Select = (({ value, label, options, description="", hasVariable=false, han
       shadow-sm
       focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
       "
+      value={targetValue}
       onChange={handleChange}
       {...register}>
         {options.map(option => (

@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Select, TextArea, Info, Error, Warning } from './Inputs';
-import { AdvancedBadge } from './Badges';
+import { AdvancedBadge, WarningBadge } from './Badges';
+import { SlimButton } from './Buttons';
 import { useStore } from '../stores/store';
 import { replaceTemplateVars } from '../utils/replaceTemplateVars';
 import { validMaxFlowStepsPerColumn, validMaxTempSteps } from '../utils/boundaryChecks';
+import { prusaMK3SDefaults } from '../lib/presets/prusa-mk3s';
 
 function InputForm() {
   const options = useStore((state) => state.options);
   const setOptions = useStore((state) => state.setOptions);
 
+  const showVariableNames = useStore((state) => state.showVariableNames);
   const setShowVariableNames = useStore((state) => state.setShowVariableNames);
 
   const startGcodeError = useStore((state) => state.startGcodeError);
@@ -21,6 +24,7 @@ function InputForm() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: options,
@@ -48,7 +52,12 @@ function InputForm() {
 
   const onSubmit = (data) => {
     updateFormData(data);
-  };
+  }
+
+  const resetForm = () => {
+    setShowVariableNames(false);
+    reset(prusaMK3SDefaults);
+  }
 
   useEffect(() => {
     const subscription = watch((data) => {
@@ -205,7 +214,7 @@ function InputForm() {
           register={register("safeZPark", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
           {errors.safeZPark && <Error msg="Enter a valide safe z park height."/>}
         
-          <Select value="showVariableNames" label="Show Variable Names"
+          <Select value="showVariableNames" label="Show Variable Names" targetValue={showVariableNames}
             description="For use in custom start and end Gcode"
             handleChange={(e) => { setShowVariableNames(e.target.value) }}
             options={[
@@ -233,7 +242,7 @@ function InputForm() {
         <h2 className="text-lg font-bold">Test Configuration</h2>
         <AdvancedBadge label="Advanced"/>
       </div>
-       <div className ="grid grid-cols-2 gap-x-8">
+      <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="primeLength" label="Prime Line Length" unit="mm"
         description="Length of prime line before blob"
         register={register("primeLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
@@ -263,6 +272,13 @@ function InputForm() {
         description="Length of filament to extrude into blob"
         register={register("extrusionAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
         {errors.extrusionAmount && <Error msg="Enter a valid extrusion amount."/>}
+      </div>
+      <div className="flex mt-4 items-center gap-2">
+        <h2 className="text-lg font-bold">Generator Settings</h2>
+        <WarningBadge label="Experimental"/>
+      </div>
+      <div className ="w-48">
+        <SlimButton label="Reset Options" color="text-zinc-600" bgColors="bg-zinc-200 hover:bg-zinc-300" handleClick={resetForm} />
       </div>
     </form>
   );

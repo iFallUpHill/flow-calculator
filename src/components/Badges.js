@@ -35,6 +35,14 @@ const AdvancedBadge = ({label}) => {
   )
 };
 
+const WarningBadge = ({label}) => {
+  return (
+    <span className="text-xs font-semibold inline-block py-1 px-2 rounded-md text-amber-600 bg-amber-200 uppercase">
+      {label}
+    </span>
+  )
+};
+
 const LabelBadge = ({label}) => {
   return (
     <span className="text-xs font-semibold inline-block py-1 px-2 rounded-md text-zinc-600 bg-zinc-200">
@@ -43,4 +51,4 @@ const LabelBadge = ({label}) => {
   )
 };
 
-export { TitleBadges, AdvancedBadge, LabelBadge };
+export { TitleBadges, AdvancedBadge, WarningBadge, LabelBadge };

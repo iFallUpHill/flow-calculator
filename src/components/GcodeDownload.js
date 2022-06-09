@@ -1,5 +1,6 @@
 import { Input } from './Inputs';
 import { useStore } from "../stores/store";
+import { Button } from './Buttons';
 import downloadGcode from '../utils/downloadGcode';
 
 
@@ -10,7 +11,7 @@ export default function GcodeDownload() {
     return (
         <> 
             <Input type="text" value="fileName" defaultValue={fileName} label="File Name (Optional)" handleChange={(e) => {setFileName(e.target.value)}} />
-            <button className="w-full mt-4 h-12 px-6 text-white font-bold transition-colors duration-150 bg-indigo-700 rounded-md focus:shadow-outline hover:bg-indigo-800" onClick={() => downloadGcode()}>Download Gcode</button>
+            <Button label="Download Gcode" bgColors="bg-indigo-700 hover:bg-indigo-800" handleClick={() => downloadGcode()} />
         </>
     )
 }
