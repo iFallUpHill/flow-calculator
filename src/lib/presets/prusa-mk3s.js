@@ -37,9 +37,13 @@ G21 ; unit in mm
 G92 E0 ; reset extruder
 M83 ; set extruder to relative mode
 M190 S\${bedTemp} ; Wait for Bed Temperature
-M106 S\${fanSpeed} ; Set Fan Speed`, 
-endGcode: `G0 X\${bedWidth - bedMargin} Y\${bedLength - bedMargin} ; Move to Corner
+M106 S\${fanSpeed} ; Set Fan Speed
+; PRINT_START
+; PRINT_START EXTRUDER=\${tempStart} BED=\${bedTemp}`, 
+endGcode: `G4 ; Wait for buffer to clear
+G0 X\${bedWidth - bedMargin} Y\${bedLength - bedMargin} ; Move to Corner
 M104 S0 T0 ; Turn Off Hotend
 M140 S0 ; Turn Off Bed
-M84 ; Disable Steppers`, 
+M84 ; Disable Steppers
+; PRINT_END`, 
 }
