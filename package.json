@@ -6,21 +6,21 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "@vitejs/plugin-react": "^2.0.0",
     "genversion": "^3.1.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-gcode-viewer": "^2.0.4",
     "react-hook-form": "^7.31.1",
     "react-hot-toast": "^2.2.0",
-    "react-scripts": "5.0.1",
+    "vite": "^3.0.4",
     "web-vitals": "^2.1.4",
     "zustand": "^4.0.0-rc.1"
   },
   "scripts": {
-    "start": "genversion --es6 src/lib/version.js && react-scripts start",
-    "build": "genversion --es6 src/lib/version.js && react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "start": "genversion --es6 src/lib/version.js && vite",
+    "build": "genversion --es6 src/lib/version.js && vite build",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
