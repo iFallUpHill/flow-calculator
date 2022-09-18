@@ -9,6 +9,7 @@ import { useStore } from '../stores/store';
 import { replaceTemplateVars } from '../utils/replaceTemplateVars';
 import { validMaxFlowStepsPerColumn, validMaxTempSteps } from '../utils/boundaryChecks';
 import { prusaMK3SDefaults } from '../lib/presets/prusa-mk3s';
+import { limits } from '../lib/limits';
 import { SuccessToast } from './Toasts';
 
 function InputForm() {
@@ -28,6 +29,7 @@ function InputForm() {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: options,
@@ -64,13 +66,14 @@ function InputForm() {
 
   useEffect(() => {
     const subscription = watch((data) => {
+    console.log(data.bedWidth)
       updateFormData(data);
     })
 
     return () => {
       subscription.unsubscribe();
     }
-  })
+  }, [watch])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,13 +81,19 @@ function InputForm() {
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="bedWidth" label="Bed Width" unit="mm" hasVariable
         description="Width of print bed (i.e. X-axis length)"
-        register={register("bedWidth", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 600)})}/>
+        register={register("bedWidth", { required: true, valueAsNumber: true, 
+          onChange: (e) => {if (e.target.value > limits.bedLengthMax) setValue("bedWidth", limits.bedWidthMax)}, 
+          validate: (value) => (value >= 100 && value <= limits.bedWidthMax)})}/>
         {errors.bedWidth && <Error msg="Enter a valid bed width."/>}
+        {options.bedWidth >= limits.bedWidthMax && <Warning msg="Max supported bed width is 600mm."/>}
 
         <Input type="number" value="bedLength" label="Bed Length" unit="mm" hasVariable
         description="Length of print bed (i.e. Y-axis length)"
-        register={register("bedLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 600)})}/>
+        register={register("bedLength", { required: true, valueAsNumber: true, 
+          onChange: (e) => {if (e.target.value > limits.bedLengthMax) setValue("bedLength", limits.bedLengthMax)}, 
+          validate: (value) => (value >= 100 && value <= limits.bedLengthMax)})}/>
         {errors.bedLength && <Error msg="Enter a valid bed length."/>}
+        {options.bedLength >= limits.bedLengthMax && <Warning msg="Max supported bed length is 600mm."/>}
 
         <Input type="number" value="bedMargin" label="Bed Margin" unit="mm" hasVariable
         description="Safe distance from edge of bed to print on"
@@ -172,7 +181,7 @@ function InputForm() {
 
         <Input type="number" value="flowSteps" label="Flow Steps" 
         description="Inclusive; Number of flow steps to test"
-        register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 40)})}/>
+        register={register("flowSteps", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 100)})}/>
         {errors.flowSteps && <Error msg="Enter a valid number of flow steps."/>}
         {options.tempSteps > 1 && !errors.flowSteps && options.flowSteps > validMaxFlowStepsPerColumn() && <Warning msg="Requested flow steps exceed bed length."/>}
         {options.tempSteps === 1 && !errors.flowSteps && options.flowSteps > (validMaxFlowStepsPerColumn() * validMaxTempSteps()) && <Warning msg="Requested flow steps exceed bed size."/>}
