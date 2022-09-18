@@ -117,7 +117,7 @@ function InputForm() {
 
         <Input type="number" value="bedTemp" label="Bed Temperature" unit="°C" hasVariable
         description="Temperature of print bed"
-        register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 40 && value <= 150)})}/>
+        register={register("bedTemp", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 150)})}/>
         {errors.bedTemp && <Error msg="Enter a valid bed temperature."/>}
 
         <Input type="number" value="fanSpeed" label="Fan Speed" unit="%"  hasVariable
