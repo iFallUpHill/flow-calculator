@@ -85,6 +85,10 @@ export default function generateGcode(data, { addHeader=false }={}) {
     })
     output.push("");
 
+    output.push(`; [SAFETY] Force Relative Extrusion`)
+    output.push(`M83 ; set extruder to relative mode`)
+    output.push("");
+
     for (let i = 1; i <= tempSteps; i++) {
         if (tempOffset === 0 && i > 1) {
             flowStart = flowStart + flowSteps * flowOffset;
