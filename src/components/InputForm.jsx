@@ -78,12 +78,12 @@ function InputForm() {
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="bedWidth" label="Bed Width" unit="mm" hasVariable
         description="Width of print bed (i.e. X-axis length)"
-        register={register("bedWidth", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
+        register={register("bedWidth", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 600)})}/>
         {errors.bedWidth && <Error msg="Enter a valid bed width."/>}
 
         <Input type="number" value="bedLength" label="Bed Length" unit="mm" hasVariable
         description="Length of print bed (i.e. Y-axis length)"
-        register={register("bedLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
+        register={register("bedLength", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 600)})}/>
         {errors.bedLength && <Error msg="Enter a valid bed length."/>}
 
         <Input type="number" value="bedMargin" label="Bed Margin" unit="mm" hasVariable
