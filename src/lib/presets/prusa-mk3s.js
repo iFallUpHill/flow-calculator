@@ -38,6 +38,7 @@ G92 E0 ; reset extruder
 M83 ; set extruder to relative mode
 M190 S\${bedTemp} ; Wait for Bed Temperature
 M106 S\${fanSpeed} ; Set Fan Speed
+; M203 I0.1 ; Uncomment for Duet/RRF (slow z-moves)
 ; PRINT_START
 ; PRINT_START EXTRUDER=\${tempStart} BED=\${bedTemp}`, 
 endGcode: `G4 ; Wait for buffer to clear

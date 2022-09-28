@@ -200,7 +200,7 @@ function InputForm() {
 
         <Input type="number" value="tempOffset" label="Offset Temperature" unit="°C"
         description="Change in temperature between temperature columns"
-        register={register("tempOffset", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 115)})}/>
+        register={register("tempOffset", { required: true, valueAsNumber: true, validate: (value) => (value >= -115 && value <= 115)})}/>
         {errors.tempOffset && <Error msg="Enter a valid offset temperature."/>}
 
         <Input type="number" value="tempSteps" label="Temperature Steps" 
