@@ -83,7 +83,7 @@ function InputForm() {
         description="Width of print bed (i.e. X-axis length)"
         register={register("bedWidth", { required: true, valueAsNumber: true, 
           onChange: (e) => {if (e.target.value > limits.bedLengthMax) setValue("bedWidth", limits.bedWidthMax)}, 
-          validate: (value) => (value >= 100 && value <= limits.bedWidthMax)})}/>
+          validate: (value) => (value >= 60 && value <= limits.bedWidthMax)})}/>
         {errors.bedWidth && <Error msg="Enter a valid bed width."/>}
         {options.bedWidth >= limits.bedWidthMax && <Warning msg="Max supported bed width is 600mm."/>}
 
@@ -91,7 +91,7 @@ function InputForm() {
         description="Length of print bed (i.e. Y-axis length)"
         register={register("bedLength", { required: true, valueAsNumber: true, 
           onChange: (e) => {if (e.target.value > limits.bedLengthMax) setValue("bedLength", limits.bedLengthMax)}, 
-          validate: (value) => (value >= 100 && value <= limits.bedLengthMax)})}/>
+          validate: (value) => (value >= 60 && value <= limits.bedLengthMax)})}/>
         {errors.bedLength && <Error msg="Enter a valid bed length."/>}
         {options.bedLength >= limits.bedLengthMax && <Warning msg="Max supported bed length is 600mm."/>}
 
