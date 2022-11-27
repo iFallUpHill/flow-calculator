@@ -171,7 +171,7 @@ function InputForm() {
       <div className ="grid grid-cols-2 gap-x-8">
         <Input type="number" value="flowStart" label="Start Flow" unit="mm³/s" 
         description="Requested flow rate for first flow test in sequence"
-        register={register("flowStart", { required: true, valueAsNumber: true, validate: (value) => (value >= 0.1 && value <= 100)})}/>
+        register={register("flowStart", { required: true, valueAsNumber: true, validate: (value) => (value > 0 && value <= 150)})}/>
         {errors.flowStart && <Error msg="Enter a valid start flow."/>}
 
         <Input type="number" value="flowOffset" label="Offset Flow" unit="mm³/s" 
