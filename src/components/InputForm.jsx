@@ -145,7 +145,7 @@ function InputForm() {
 
         <Input type="number" value="retractionSpeed" label="Retraction Speed" unit="mm/s"
         description="Speed that extruder drives back filament"
-        register={register("retractionSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 50)})}/>
+        register={register("retractionSpeed", { required: true, valueAsNumber: true, validate: (value) => (value >= 1 && value <= 150)})}/>
         {errors.retractionSpeed && <Error msg="Enter a valid retraction speed."/>}
       </div>
 
