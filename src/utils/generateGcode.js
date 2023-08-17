@@ -35,7 +35,8 @@ export default function generateGcode(data, { addHeader=false }={}) {
 
     let {
         bedLength,
-        bedMargin,
+        bedMarginX,
+        bedMarginY,
         flowSpacing,
         flowStart,
         flowSteps,
@@ -60,7 +61,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
 
     if (direction === 1) {
         bedLength = 0
-        bedMargin = bedMargin * -1
+        bedMarginY = bedMarginY * -1
         flowSpacing = flowSpacing * -1
     }
 
@@ -118,18 +119,18 @@ export default function generateGcode(data, { addHeader=false }={}) {
             output.push(`;####### ${tempStart + (i - 1) * tempOffset}°C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
             output.push(`M117 ${tempStart + (i - 1) * tempOffset}C // ${flowStart + (j - 1) * flowOffset}mm3/s`);
 
-            output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} Z${0.5 + blobHeight + 5} F${travelSpeed * 60}`);
+            output.push(`G0 X${Math.abs(bedMarginX) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMarginY) - (j - 1) * flowSpacing} Z${0.5 + blobHeight + 5} F${travelSpeed * 60}`);
             output.push(`G4 S${dwellTime} ; Dwell`);
-            output.push("G0 Z${primingHeight} ; Drop down");
-            output.push(`G1 X${Math.abs(bedMargin) + primeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} E${primeAmount} F${(primeSpeed * 60)} ; Prime`);
+            output.push(`G0 Z${primingHeight} ; Drop down`);
+            output.push(`G1 X${Math.abs(bedMarginX) + primeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} E${primeAmount} F${(primeSpeed * 60)} ; Prime`);
             output.push(`G1 E${-1 * retractionDistance} F${retractionSpeed * 60} ; Retract`);
-            output.push(`G0 X${Math.abs(bedMargin) + primeLength + wipeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} F${travelSpeed * 60} ; Wipe`);
-            output.push("G0 Z${startHeight}  ; Lift");
+            output.push(`G0 X${Math.abs(bedMarginX) + primeLength + wipeLength + ((i - 1) * (primeLength + wipeLength + tempSpacing))} F${travelSpeed * 60} ; Wipe`);
+            output.push(`G0 Z${startHeight}  ; Lift`);
             output.push(`G1 E${retractionDistance} F${retractionSpeed * 60} ; Undo Retract`);
             output.push(`G1 Z${startHeight + blobHeight} E${extrusionAmount} F${extrusionSpeed} ; Extrude`);
             output.push(`G1 E${-1 * retractionDistance} F${retractionSpeed * 60} ; Retract`);
             output.push(`G0 Z${startHeight + blobHeight + 5}; Lift`);
-            output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} F${travelSpeed * 60}`);
+            output.push(`G0 X${Math.abs(bedMarginX) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMarginY) - (j - 1) * flowSpacing} F${travelSpeed * 60}`);
             output.push("G92 E0 ; Reset Extruder");
             output.push("");
         }

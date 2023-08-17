@@ -2,7 +2,8 @@
 export const prusaMK3SDefaults = {
     bedWidth: 250, // mm
     bedLength: 210, // mm
-    bedMargin: 5, // mm 
+    bedMarginX: 5, // mm
+    bedMarginY: 5, // mm
     safeZPark: 10, // mm
     filamentDiameter: 1.75, // mm
     travelSpeed: 100, // mm/s
