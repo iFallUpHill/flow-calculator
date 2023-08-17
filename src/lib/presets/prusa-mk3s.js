@@ -28,6 +28,10 @@ export const prusaMK3SDefaults = {
     tempOffset: 20, // °C
     tempSteps: 3, // unitless, (end-start)/offset
     tempEnd: 240, // °C
+    primingHeight: 0.3, // mm
+    startHeight: 0.5, // mm
+    temperatureGCodeType: '109', // 104 or 109
+    heatBeforeDewell: false, // true or false
     startGcode: `M104 S\${tempStart} ; Set Nozzle Temperature
 M140 S\${bedTemp} ; Set Bed Temperature
 G90 ; Absolute positioning
