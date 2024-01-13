@@ -121,6 +121,7 @@ export default function generateGcode(data, { addHeader=false }={}) {
             output.push(`G0 Z${0.5 + blobHeight + 5}; Lift`);
             output.push(`G0 X${Math.abs(bedMargin) + ((i - 1) * (primeLength + wipeLength + tempSpacing))} Y${(bedLength - bedMargin) - (j - 1) * flowSpacing} F${travelSpeed * 60}`);
             output.push("G92 E0 ; Reset Extruder");
+            output.push("M400 ; Finish moves");
             output.push("");
         }
     }
