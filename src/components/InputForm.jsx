@@ -44,13 +44,13 @@ function InputForm() {
       replaceTemplateVars(data.startGcode, data);
       setStartGcodeError(``);
     } 
-    catch (err) { console.log(err); setStartGcodeError(`Unable to parse supplied Gcode.`) } 
+    catch (err) { console.log(err); setStartGcodeError(`Unable to parse supplied Gcode: ${err}`) } 
 
     try { 
       replaceTemplateVars(data.endGcode, data)
       setEndGcodeError(``);
      } 
-    catch (err) { setEndGcodeError(`Unable to parse supplied Gcode.`) } 
+    catch (err) { setEndGcodeError(`Unable to parse supplied Gcode: ${err}`) } 
 
     setOptions(data);
   }
@@ -95,10 +95,15 @@ function InputForm() {
         {errors.bedLength && <Error msg="Enter a valid bed length."/>}
         {options.bedLength >= limits.bedLengthMax && <Warning msg="Max supported bed length is 600mm."/>}
 
-        <Input type="number" value="bedMargin" label="Bed Margin" unit="mm" hasVariable
-        description="Safe distance from edge of bed to print on"
-        register={register("bedMargin", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 50)})}/>
-        {errors.bedMargin && <Error msg="Enter a valid bed margin."/>}
+        <Input type="number" value="bedMarginX" label="X Bed Margin" unit="mm"
+        description="Safe distance from edge of bed to print on from the X axis"
+        register={register("bedMarginX", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= (limits.bedWidthMax/3))})}/>
+        {errors.bedMarginX && <Error msg="Enter a valid X bed Margin."/>}
+
+        <Input type="number" value="bedMarginY" label="X Bed margin" unit="mm"
+        description="Safe distance from edge of bed to print on from the X axis"
+        register={register("bedMarginY", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= (limits.bedLengthMax/3))})}/>
+        {errors.bedMarginY && <Error msg="Enter a valid Y bed margin."/>}
 
         <Select value="direction" label="Generation Direction" register={register("direction", { required: true, valueAsNumber: true })}
         description="For toolheads with large forward clearance"
@@ -284,6 +289,34 @@ function InputForm() {
         description="Length of filament to extrude into blob"
         register={register("extrusionAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
         {errors.extrusionAmount && <Error msg="Enter a valid extrusion amount."/>}
+
+        <Input type="number" value="primingHeight" label="Priming Height" unit="mm"
+        description="The height to prime the nozzle at. As larger nozzles may need a higher priming height."
+        register={register("primingHeight", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 3)})}/>
+        {errors.primingHeight && <Error msg="Enter a valid priming height."/>}
+
+        <Input type="number" value="startHeight" label="Start Height" unit="mm"
+        description="The height to start the extrusion at. As larger nozzles may need a higher start height."
+        register={register("startHeight", { required: true, valueAsNumber: true, validate: (value) => (value >= 0 && value <= 3)})}/>
+        {errors.startHeight && <Error msg="Enter a valid start height."/>}
+
+        <Select value="temperatureGCodeType" label="Temperature GCode Type" register={register("temperatureGCodeType", { required: true, valueAsNumber: true })}
+          description="Use M104 or M109 for temperature changes"
+          options={[
+            {value: 104, label: "M104"},
+            {value: 109, label: "M109"}
+          ]}
+        />
+
+        <Input type="number" value="toolNumber" label="Tool Number"
+        description="The tool number to use for multi-tool printers. Typically the first tool has number zero."
+        register={register("toolNumber", { required: false, valueAsNumber: true, validate: (value) => (!value || (value >= 0 && value < 32))})}/>
+        {errors.toolNumber && <Error msg="Enter a valid tool number, or leave blank."/>}
+
+        <Input type="checkbox" value="heatBeforeDewell" label="Heat Before Dewell" register={register("heatBeforeDewell", { required: true })}
+        description="Heat the nozzle before the dewell time"
+        />
+
       </div>
       <div className="flex mt-4 items-center gap-2">
         <h2 className="text-lg font-bold">Generator Settings</h2>
