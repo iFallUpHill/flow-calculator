@@ -284,7 +284,16 @@ function InputForm() {
         description="Length of filament to extrude into blob"
         register={register("extrusionAmount", { required: true, valueAsNumber: true, validate: (value) => (value >= 100 && value <= 500)})}/>
         {errors.extrusionAmount && <Error msg="Enter a valid extrusion amount."/>}
+
+        <Input type="checkbox" value="randomizeTestOrder" label="Randomize Test Order"
+        description="When checked, the test order is randomized. The layout of tests on the bed is not changed, but the tests are executed in a random order."
+        register={register("randomizeTestOrder", { required: true })}/>
+        
+        <Input type="text" value="randomizeTestOrderSeed" label="Randomize Test Order Seed"
+        description="A seed for Randomize Test Order, or leave blank for a random seed."
+        register={register("randomizeTestOrderSeed", { required: false })}/>
       </div>
+
       <div className="flex mt-4 items-center gap-2">
         <h2 className="text-lg font-bold">Generator Settings</h2>
         <WarningBadge label="Experimental"/>
