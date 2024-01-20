@@ -47,7 +47,7 @@ M106 S\${fanSpeed * 255/100} ; Set Fan Speed
 ; PRINT_START
 ; PRINT_START EXTRUDER=\${tempStart} BED=\${bedTemp}`, 
 endGcode: `G4 ; Wait for buffer to clear
-G0 X\${bedWidth - bedMargin} Y\${bedLength - bedMargin} ; Move to Corner
+G0 X\${bedWidth - bedMarginX} Y\${bedLength - bedMarginY} ; Move to Corner
 M104 S0 T0 ; Turn Off Hotend
 M140 S0 ; Turn Off Bed
 M84 ; Disable Steppers
