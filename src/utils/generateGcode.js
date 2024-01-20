@@ -23,8 +23,9 @@ export default function generateGcode(data, { addHeader=false }={}) {
         primingHeight,
         startHeight,
         temperatureGCodeType,
-        heatBeforeDewell,
+        heatBeforeDewell,        
         /* eslint-disable */ 
+        toolNumber,
         bedWidth,
         safeZPark,
         tempEnd,
@@ -101,15 +102,18 @@ export default function generateGcode(data, { addHeader=false }={}) {
 
         output.push(`;####### ${tempStart + (i - 1) * tempOffset}°C`);
         
+        let setNozzleTemp = toolNumber 
+            ? `M${temperatureGCodeType} S${tempStart + (i - 1) * tempOffset} T${toolNumber}`
+            : `M${temperatureGCodeType} S${tempStart + (i - 1) * tempOffset}`;
+
         if (heatBeforeDewell) {
-            output.push(`M${temperatureGCodeType} S${tempStart + (i - 1) * tempOffset}`);
+            output.push(setNozzleTemp);
             output.push(`G4 S${dwellTime}; Dwell`);
         } else {
             output.push(`G4 S${dwellTime}; Dwell`);
-            output.push(`M${temperatureGCodeType} S${tempStart + (i - 1) * tempOffset}`);
+            output.push(setNozzleTemp);
         }
         output.push("");
-
 
         for (let j = 1; j <= flowSteps; j++) {
             if (tempOffset === 0 && i === tempSteps && flowStart + (j - 2) * flowOffset === flowEnd) break;

@@ -44,13 +44,13 @@ function InputForm() {
       replaceTemplateVars(data.startGcode, data);
       setStartGcodeError(``);
     } 
-    catch (err) { console.log(err); setStartGcodeError(`Unable to parse supplied Gcode.`) } 
+    catch (err) { console.log(err); setStartGcodeError(`Unable to parse supplied Gcode: ${err}`) } 
 
     try { 
       replaceTemplateVars(data.endGcode, data)
       setEndGcodeError(``);
      } 
-    catch (err) { setEndGcodeError(`Unable to parse supplied Gcode.`) } 
+    catch (err) { setEndGcodeError(`Unable to parse supplied Gcode: ${err}`) } 
 
     setOptions(data);
   }
@@ -308,11 +308,14 @@ function InputForm() {
           ]}
         />
 
+        <Input type="number" value="toolNumber" label="Tool Number"
+        description="The tool number to use for multi-tool printers. Typically the first tool has number zero."
+        register={register("toolNumber", { required: false, valueAsNumber: true, validate: (value) => (!value || (value >= 0 && value < 32))})}/>
+        {errors.toolNumber && <Error msg="Enter a valid tool number, or leave blank."/>}
+
         <Input type="checkbox" value="heatBeforeDewell" label="Heat Before Dewell" register={register("heatBeforeDewell", { required: true })}
         description="Heat the nozzle before the dewell time"
         />
-        {errors.heatBeforeDewell && <Error msg="Enter a valid start height."/>}
-
 
       </div>
       <div className="flex mt-4 items-center gap-2">
