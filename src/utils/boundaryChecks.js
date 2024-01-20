@@ -1,15 +1,15 @@
 import { useStore } from "../stores/store";
 
 function validMaxFlowStepsPerColumn() {
-    const { bedLength, bedMargin, flowSpacing} = useStore.getState().options;
+    const { bedLength, bedMarginX, bedMarginY, flowSpacing} = useStore.getState().options;
 
-    return Math.floor(((bedLength - 2 * bedMargin) + flowSpacing)/ flowSpacing);
+    return Math.floor(((bedLength - 2 * bedMarginY) + flowSpacing)/ flowSpacing);
 }
 
 function validMaxTempSteps() {
-    const { bedWidth, bedMargin, tempSpacing, primeLength, wipeLength } = useStore.getState().options;
+    const { bedWidth, bedMarginX, bedMarginY, tempSpacing, primeLength, wipeLength} = useStore.getState().options;
 
-    return Math.floor(((bedWidth - 2 * bedMargin) + tempSpacing)/(primeLength + wipeLength + tempSpacing));
+    return Math.floor(((bedWidth - 2 * bedMarginX) + tempSpacing)/(primeLength + wipeLength + tempSpacing));
 }
 
 export {
